@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar color="primary">
+
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button> <!-- Botón hamburguesa -->
+      
+
+    </ion-buttons>
+    @if(!originalState){
+      <ion-back-button slot="end" 
+                       defaultHref="/deliveries"
+                       text="Atrás" 
+                       
+                       (click) = 'statusDefault()'></ion-back-button>
+    } 
+    
+    <ion-title> Gestion de Domicilios</ion-title>
+    
+    
+  
+  </ion-toolbar>
+  
+</ion-header>
+
+
+
+<ion-content  >
+  
+
+  
+
+  @if(originalState){    
+      
+          <ion-button class="clientbtn"  color="primary"  (click) = "deliveriesFiltered('today', '', '', '')" >
+            Hoy
+         </ion-button>
+         <ion-button class="clientbtn"  color="primary"  (click) = "deliveriesFiltered('week', '', '', '')" >
+          Esta semana
+          </ion-button> 
+          <ion-button class="clientbtn"  color="primary"   (click) = "deliveriesFiltered('custom', '', '', '')" >
+          todos
+          </ion-button> 
+      
+          <ion-button   class="clientbtn"  color="success"  (click) = "crearDomicilio()" >
+            Crear domicilio
+          </ion-button> 
+   
+    
+
+           <app-deliveries-component (onSubmitUpdateRider)="updateRider($event)"
+                                     [refreshTable]="refreshTableTrigger" 
+                                     (onSubmitUpdateState)="UpdatingStateDelivery($event)"
+                                     [DeliveriesSemanal]="deliveriesFilt"></app-deliveries-component>
+  }
+
+  
+
+  @if(!originalState){
+    
+    <app-new-domi (formSubmit)="handlerFormSubmit($event)"></app-new-domi>
+   
+  }
+
+ 
+
+ 
+
+
+</ion-content>
+
+

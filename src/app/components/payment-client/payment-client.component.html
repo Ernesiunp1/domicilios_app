@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Pagos de Clientes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Gestión de Pagos de Clientes</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <!-- Filtro por estado -->
+      <ion-item>
+        <ion-label>Filtrar por estado:</ion-label>
+        <ion-select [(ngModel)]="filterStatus" (ionChange)="onFilterChange()">
+          <ion-select-option *ngFor="let option of statusOptions" [value]="option.value">
+            {{ option.label }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <!-- Botón para procesar pagos seleccionados -->
+      <ion-button expand="block" color="success" (click)="processSelectedPayments()" [disabled]="getSelectedPayments().length === 0">
+        Procesar Pagos Seleccionados
+      </ion-button>
+
+      <!-- Mensaje de error si existe -->
+      <ion-item *ngIf="error" color="danger">
+        <ion-label>{{ error }}</ion-label>
+      </ion-item>
+
+      <!-- Indicador de carga -->
+      <div class="ion-text-center" *ngIf="isLoading">
+        <ion-spinner></ion-spinner>
+        <p>Cargando datos...</p>
+      </div>
+
+      <!-- Tabla de pagos -->
+      <ion-grid *ngIf="!isLoading && clientPaymentDetails.length > 0">
+        <ion-row class="header-row">
+          <ion-col size="1">
+            <ion-checkbox (ionChange)="selectAll($event)"></ion-checkbox>
+          </ion-col>
+          <ion-col size="2">ID</ion-col>
+          <ion-col size="3">Cliente</ion-col>
+          <ion-col size="2">Monto</ion-col>
+          <ion-col size="2">Fecha</ion-col>
+          <ion-col size="2">Estado</ion-col>
+        </ion-row>
+
+        <ion-row *ngFor="let payment of clientPaymentDetails" class="data-row">
+          <ion-col size="1">
+            <ion-checkbox [(ngModel)]="payment.isSelected"></ion-checkbox>
+          </ion-col>
+          <ion-col size="2">{{ payment.id }}</ion-col>
+          <ion-col size="3">{{ payment.clientName }}</ion-col>
+          <ion-col size="2">{{ payment.amount | currency }}</ion-col>
+          <ion-col size="2">{{ payment.date | date:'dd/MM/yyyy' }}</ion-col>
+          <ion-col size="2">
+            <ion-badge [color]="
+              payment.status === 'PENDING' ? 'warning' : 
+              payment.status === 'PAID' ? 'success' : 'danger'
+            ">
+              {{ payment.status === 'PENDING' ? 'Pendiente' : 
+                payment.status === 'PAID' ? 'Pagado' : 'Cancelado' }}
+            </ion-badge>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <!-- Mensaje cuando no hay datos -->
+      <ion-item *ngIf="!isLoading && clientPaymentDetails.length === 0">
+        <ion-label class="ion-text-center">No hay pagos disponibles con los filtros seleccionados</ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

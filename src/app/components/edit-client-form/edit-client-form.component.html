@@ -1,0 +1,48 @@
+<ion-header >
+  <ion-toolbar color="primary">
+    <ion-title>Actualizar Cliente</ion-title>
+    
+  
+  </ion-toolbar>
+</ion-header>
+
+
+
+
+
+
+<ion-content class="ion-padding">
+
+  <div class="container" >
+
+    
+  <ion-card class="edit-client-form" >
+
+    
+    
+  
+  <form (ngSubmit)="updateClient()">
+    <ion-item>
+      <ion-label position="floating">Nombre del Cliente</ion-label>
+      <ion-input [(ngModel)]="clientData.client_name" name="client_name" type="text"></ion-input>
+    </ion-item>
+    
+    <ion-item>
+      <ion-label position="floating">Teléfono</ion-label>
+      <ion-input [(ngModel)]="clientData.phone" name="phone" type="tel"></ion-input>
+    </ion-item>
+    
+    <ion-item>
+      <ion-label position="floating">Dirección</ion-label>
+      <ion-input [(ngModel)]="clientData.address" name="address" type="text"></ion-input>
+    </ion-item>
+    
+    <div class="ion-padding-top">
+      <ion-button expand="block" type="submit">Actualizar Cliente</ion-button>
+    </div>
+  </form>
+
+</ion-card>
+
+</div>
+</ion-content>

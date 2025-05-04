@@ -1,0 +1,149 @@
+<!-- <ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Gestión de Domicilios</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Domicilios</ion-card-title>
+            <ion-card-subtitle>Listado de domicilios en el sistema</ion-card-subtitle>
+          </ion-card-header>
+          
+          <ion-card-content>
+            <!-- Filtros -->
+            <ion-item>
+              <ion-label>Estado del domicilio:</ion-label>
+              <ion-select [(ngModel)]="selectedState" (ionChange)="onStateChange()" placeholder="Todos los estados">
+                <ion-select-option [value]="null">Todos</ion-select-option>
+                <ion-select-option *ngFor="let state of states" [value]="state">{{ state }}</ion-select-option>
+              </ion-select>
+            </ion-item>
+             
+            <!-- Tabla de domicilios -->
+            <div class="table-container">
+              <ion-spinner *ngIf="isLoading" name="crescent" class="spinner-centered"></ion-spinner>
+              
+              <table class="delivery-table" *ngIf="!isLoading">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nombre cliente</th>
+                    <th>Nombre Repartidor</th>
+                    <th>Nombre Paquete</th>
+                    <th>Dirección Entrega</th>
+                    <th>Estado</th>
+                    <th>Fecha Creación</th>
+                    <th>Fecha Entrega</th>
+                    <!-- <th>Estado Pago</th> -->
+                    <th>Monto Total</th>
+                    <!-- <th>Tipo Pago</th> -->
+                    <!-- <th>Observaciones</th> -->
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- ID -->
+                  <tr *ngFor="let delivery of deliveries index as i">
+                    <td>{{ delivery.id }}</td>
+                    <!-- NOMBRE CLIENTE-->
+                    <td>{{ delivery.client.client_name }}</td>                    
+                    <!-- NOMBRE DEL DOMICILIARIO-->                                      
+                    <td *ngIf="delivery.rider">{{ delivery.rider.name }}</td>
+                    <td *ngIf="!delivery.rider && !agregarRider ">Sin asignar</td>
+                    
+                    <td *ngIf="!delivery.rider && agregarRider ">
+                    
+                      <ion-select *ngIf="riders.length > 0 && delivery.id == deliveryIdToRider  
+                                  " (ionChange)="onRiderSelected($event, delivery.id)" >
+                        <ion-select-option *ngFor="let rider of riders" [value]="rider.id" >
+                          {{ rider.name }}
+                        </ion-select-option>
+                      </ion-select>
+                      <ion-spinner *ngIf="riders.length === 0"></ion-spinner>
+                    
+                    </td>
+                    <!-- NOMBRE DEL PAQUETE-->
+                    <td>{{ delivery.package_name }}</td>
+                    <!-- DIRECCION DE ENTREGA-->
+                    <td>{{ delivery.delivery_address }}</td>
+                    <!-- ESTADO DEL DOMICILIO-->
+                    <td><ion-badge [color]="getStateColor(delivery.state)">
+                        {{ delivery.state }}</ion-badge> </td>
+                    <!-- FECHA DE CREACION-->
+                    <td>{{ formatDate(delivery.created_at) }}</td>
+                    <!-- FECHA DE ENTREGA-->
+                    <td>{{ formatDate(delivery.delivery_date) }}</td>                  
+                    
+                    <!-- ESTADO DEL PAGO -->
+                    <!-- <td>                      
+                      <ion-badge *ngIf="delivery.payments && delivery.payments.length > 0" 
+                                 [color]="getPaymentStatusColor(delivery.payments[0]!.payment_status!)">
+                        {{ delivery.payments[0].payment_status }}
+                      </ion-badge>
+                      <span *ngIf="!delivery.payments || delivery.payments.length === 0">N/A</span>
+                    </td> -->
+                    
+                    
+                    <!-- MONTO TOTAL DEL DOMICLIO -->
+                    <td>{{ delivery.payments[0].total_amount | currency }}</td>
+                    
+                    <!-- TIPO DE PAGO (CASH TRANSFER ETC..) -->
+                    <!-- <td>{{ delivery.payments[0].payment_type }}</td> -->
+                    
+                    <!-- OBSERVACIONES -->
+                    <!-- <td>{{ 'N/A' }}</td> -->
+
+
+                    <!-- btns de acciones -->
+                    <td>
+                      <ion-buttons>
+                        <ion-button  (click)="AgregarRider(delivery.id)" fill="clear" color="primary">
+                          <ion-icon name="bicycle-outline" slot="icon-only"></ion-icon>
+                        </ion-button>
+                        <ion-button  (click) ="changeState(delivery, deliveryStates.DELIVERED)" fill="clear" color="success">
+                          <ion-icon name="checkmark-done-circle-outline"></ion-icon>
+                        </ion-button>
+                        <ion-button (click) ="changeState(delivery, deliveryStates.CANCELLED)" fill="clear" color="danger">
+                          <ion-icon name="close-outline"></ion-icon>
+                        </ion-button>
+                      </ion-buttons>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              
+              <div *ngIf="!isLoading && deliveries.length === 0" class="no-data">
+                <p>No se encontraron domicilios.</p>
+              </div>
+            </div>
+            
+            <!-- Paginación -->
+            <div class="pagination-container">
+              <ion-text>
+                Mostrando {{ deliveries.length }} de {{ totalDeliveries }} domicilios | 
+                Página {{ currentPage }} de {{ totalPages }}
+              </ion-text>
+              <ion-buttons>
+                <ion-button [disabled]="currentPage === 1" (click)="prevPage()">
+                  <ion-icon slot="icon-only" name="chevron-back"></ion-icon>
+                </ion-button>
+                <ion-button [disabled]="currentPage === totalPages" (click)="nextPage()">
+                  <ion-icon slot="icon-only" name="chevron-forward"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+  <h1>{{DeliveriesSemanal}}</h1>
+
+</ion-content>

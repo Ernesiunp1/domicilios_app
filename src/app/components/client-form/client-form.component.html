@@ -1,0 +1,46 @@
+    
+<ion-card class="login-card">
+  <ion-card-subtitle >Registro Clientes</ion-card-subtitle>
+        
+    <div class="center-icon">
+      <ion-icon name="id-card-outline" size="large" color="warning" slot="icon-only"></ion-icon>
+    </div> 
+    
+    
+    
+    <form [formGroup]="clientForm" (ngSubmit)="submitForm()">
+      <ion-item>
+        <ion-label position="floating">Nombre del Cliente</ion-label>
+        <ion-input formControlName="client_name"></ion-input>
+      </ion-item>
+      <ion-note color="danger" *ngIf="clientForm.get('client_name')?.touched && clientForm.get('client_name')?.invalid">
+        Este campo es requerido.
+      </ion-note>
+
+      <ion-item>
+        <ion-label position="floating">Teléfono</ion-label>
+        <ion-input formControlName="phone" type="tel"></ion-input>
+      </ion-item>
+      <ion-note color="danger" *ngIf="clientForm.get('phone')?.touched && clientForm.get('phone')?.invalid">
+        Teléfono requerido y solo números.
+      </ion-note>
+
+      <ion-item>
+        <ion-label position="floating">Dirección</ion-label>
+        <ion-input formControlName="address"></ion-input>
+      </ion-item>
+      <ion-note color="danger" *ngIf="clientForm.get('address')?.touched && clientForm.get('address')?.invalid">
+        Dirección requerida.
+      </ion-note>
+ 
+      <ion-button class="boton-login" 
+                  color="warning" 
+                  expand="block" 
+                  type="submit" [disabled]="clientForm.invalid">Registrar Cliente</ion-button>
+    </form>
+
+    <ion-button color="warning" routerLink="/login" expand="block" fill="clear">
+      ¿Ya tienes cuenta? Haz login
+    </ion-button>
+
+</ion-card>

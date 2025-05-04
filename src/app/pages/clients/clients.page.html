@@ -1,0 +1,101 @@
+<ion-header>
+  <ion-toolbar>
+
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button> <!-- Botón hamburguesa -->
+      
+
+    </ion-buttons>
+    @if(!clientList){
+      <ion-back-button slot="end" 
+                     defaultHref="/clients" 
+                     text="Atrás" 
+                     color="primary"
+                     (click) = 'statusDefault()'></ion-back-button>
+
+    }
+    
+    
+    <ion-title>Clientes</ion-title>   
+  
+  </ion-toolbar>
+  
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">clients</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+
+
+
+
+
+
+
+
+
+  <!-- btn agregar nuevo cliente -->
+  @if(clientList){
+      <ion-button (click)="agregarCliente()" 
+                  class="clientbtn" color="success" 
+                  >  
+        <ion-icon slot="start" name="add-circle-outline"></ion-icon>  
+        Agregar Cliente
+      </ion-button>
+  }
+
+  
+  <!-- cliente List -->
+  @if(clientList){
+  <app-clients-list (eliminarCliente)="OnEliminarCliente($event)" 
+                    (getClientByName)="getClienteByName($event)" 
+                    (editClientOutput)="onEditClient($event)"></app-clients-list>
+
+  }
+
+  <!-- fomulario para crear cliente -->
+  @if (createClient) {
+    
+    <div class="card-container">
+      <app-client-form (formSubmitted)="OnCreateClient($event)" ></app-client-form>
+      
+    </div>
+    <div style="display: flex; justify-content: center;">
+
+      <ion-button (click) = cancelRegisterClient()
+                  class="login-card" 
+                  expand="block" 
+                  color="warning">
+        Atras
+      </ion-button>
+
+    </div >
+    
+  }
+
+
+  <!-- tarjeta de detalle del cliente cliente -->
+  @if (clientDetail) {
+    <app-client-detail [cliente] = "clienteSeleccionado"  ></app-client-detail>
+
+  }
+
+  @if(editClient){
+    <app-edit-client-form 
+    [client]="clientup" 
+    (updatingClient)="updateClientData($event)">
+  </app-edit-client-form>
+
+  }  
+
+  
+
+
+
+
+</ion-content>

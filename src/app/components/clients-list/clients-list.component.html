@@ -1,0 +1,76 @@
+<!-- src/app/components/clients-list/clients-list.component.html -->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Lista de Clientes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  @if(isLoading) {
+    <div class="ion-padding ion-text-center">
+      <ion-spinner></ion-spinner>
+      <p>Cargando clientes...</p>
+    </div>
+
+  }
+  
+  @if(error){
+    <ion-card color="danger">
+      <ion-card-content>
+        {{ error }}
+        <ion-button fill="clear" (click)="loadClients()">Reintentar</ion-button>
+      </ion-card-content>
+    </ion-card>
+  
+
+
+  }
+
+ 
+  <ion-grid *ngIf="!isLoading && !error">
+    <ion-row class="header-row">
+      <ion-col size="1">#</ion-col>
+      <ion-col size="3">Nombre</ion-col>
+      <ion-col size="2">Teléfono</ion-col>
+      <ion-col size="2">Dirección</ion-col>
+      <ion-col size="2">Estado</ion-col>
+      <ion-col size="2">Acciones</ion-col>
+    </ion-row>
+
+    <ion-row *ngFor="let client of clients" class="data-row" [ngClass]="{'inactive': !client.is_active}">
+      <ion-col size="1">{{ client.id }}</ion-col>
+      <ion-col size="3">{{ client.client_name }}</ion-col>
+      <ion-col size="2">{{ client.phone }}</ion-col>
+      <ion-col size="2">{{ client.address }}</ion-col>
+      <ion-col size="2">
+        <ion-badge [color]="client.is_active ? 'success' : 'medium'"> {{ client.is_active ? 'Activo' : 'Inactivo' }}
+        </ion-badge>
+      </ion-col>
+      <ion-col size="2">
+        <ion-button shape="round" 
+                    (click)="onGetClientByName(client.client_name)"
+                    size="small">
+          <ion-icon  name="eye"></ion-icon>
+        </ion-button>
+        <ion-button shape="round" 
+                    (click)="editClient(client)"
+                    size="small"
+                    color='warning'>
+          <ion-icon  name="sync"></ion-icon>
+        </ion-button>
+        <ion-button shape="round" 
+                    (click)="onEliminar(client.id)"
+                    size="small"
+                    color='danger'>
+          <ion-icon  name="close-circle-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

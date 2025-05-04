@@ -1,0 +1,45 @@
+/* rider-details.component.scss */
+.stat-item {
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: rgba(var(--ion-color-primary-rgb), 0.1);
+    margin-bottom: 8px;
+  }
+  
+  .stat-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--ion-color-primary);
+  }
+  
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--ion-color-medium);
+  }
+  
+  ion-card {
+    margin-bottom: 16px;
+  }
+  
+  ion-card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  
+  .payment-details {
+    background-color: rgba(var(--ion-color-light-rgb), 0.5);
+    padding: 8px;
+    margin-top: 8px;
+    border-radius: 4px;
+  }
+
+  .container {
+    display: flex;
+    justify-content: center;
+    // align-items: center;
+    flex-direction: column;
+    max-width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+  }

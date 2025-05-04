@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Iniciar Sesión</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  
+  
+  <div class="card-container">
+
+    <ion-card class="login-card">
+      <ion-card-subtitle color="primary">Login</ion-card-subtitle>
+            
+        <div class="center-icon">
+          <ion-icon name="person-outline" size="large" color="primary" slot="icon-only"></ion-icon>
+        </div>  
+      
+     
+      
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <ion-item>
+          <ion-label position="floating">Username</ion-label>
+          <ion-input type="text" formControlName="username"></ion-input>
+        </ion-item>
+        <ion-note color="danger" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+          Email inválido
+        </ion-note>
+    
+        <ion-item>
+          <ion-label position="floating">Contraseña</ion-label>
+          <ion-input type="password" formControlName="password">
+            <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+          </ion-input>
+          
+        </ion-item>
+    
+        <ion-button class="boton-login" type="submit" expand="block" [disabled]="!loginForm.valid">
+          Ingresar
+        </ion-button>
+      </form>
+    
+      <ion-button routerLink="/register" expand="block" fill="clear">
+        ¿No tienes cuenta? Regístrate
+      </ion-button>
+      
+    </ion-card>
+      
+  </div>
+
+  <!-- El botón oculto que sirve como trigger para el alert -->
+  <!-- <ion-button id="error-alert" hidden></ion-button> -->
+  
+  <!-- Alert personalizado para errores -->
+   @if(showErrorAlert){
+    <ion-alert 
+    
+    
+    class="custom-alert" 
+    header="Error de autenticación" 
+    [message]="errorMessage"
+    [buttons]="alertButtons"
+    [isOpen]="showErrorAlert">
+  </ion-alert>
+
+
+
+   }
+  
+
+</ion-content>

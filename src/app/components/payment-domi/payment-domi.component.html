@@ -1,0 +1,148 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Gestión de Pagos - Domiciliarios</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="fetchRidersData()">
+        <ion-icon name="refresh"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="filterStatus" (ionChange)="segmentChanged($event)">
+      <ion-segment-button value="PENDING">
+        <ion-label>Pendientes</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="SETTLED">
+        <ion-label>Liquidados</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="ALL">
+        <ion-label>Todos</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col size="12">
+        <ion-item>
+          <ion-label>Rango de fechas</ion-label>
+          <ion-datetime-button datetime="dateRange"></ion-datetime-button>
+        </ion-item>
+        <ion-modal [keepContentsMounted]="true">
+          <ng-template>
+            <ion-datetime id="dateRange" 
+              presentation="date" 
+              [showDefaultButtons]="true" 
+              [value]="dateRange"
+              (ionChange)="dateRangeChanged($event)">
+            </ion-datetime>
+          </ng-template>
+        </ion-modal>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Lista de Domiciliarios -->
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Domiciliarios con Pagos</ion-label>
+    </ion-list-header>
+    
+    <ion-item *ngFor="let rider of ridersData" 
+              (click)="handleSelectRider(rider)" 
+              [detail]="true"
+              [color]="selectedRider?.rider_id === rider.rider_id ? 'light': ''">
+      <ion-avatar slot="start">
+        <ion-icon name="person" size="large"></ion-icon>
+      </ion-avatar>
+      <ion-label>
+        <h2>{{ rider.rider_name }}</h2>
+        <p>{{ rider.rider_phone }}</p>
+      </ion-label>
+      <ion-badge slot="end" color="primary">{{ rider.total_deliveries }} domicilios</ion-badge>
+      <ion-note slot="end" [color]="rider.pending_amount > 0 ? 'danger' : 'success'">
+        ${{ rider.pending_amount.toLocaleString() }}
+      </ion-note>
+    </ion-item>
+  </ion-list>
+
+  <!-- Detalles del Domiciliario seleccionado -->
+  <div *ngIf="selectedRider">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ selectedRider.rider_name }}</ion-card-title>
+        <ion-card-subtitle>Detalle de Pagos</ion-card-subtitle>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-item lines="none">
+                <ion-label>Total Domicilios</ion-label>
+                <ion-badge slot="end">{{ selectedRider.total_deliveries }}</ion-badge>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item lines="none">
+                <ion-label>Total Generado</ion-label>
+                <ion-note slot="end">${{ selectedRider.total_amount.toLocaleString() }}</ion-note>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item lines="none">
+                <ion-label>Pendiente</ion-label>
+                <ion-note slot="end" [color]="selectedRider.pending_amount > 0 ? 'danger' : 'success'">
+                  ${{ selectedRider.pending_amount.toLocaleString() }}
+                </ion-note>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        
+        <ion-list>
+          <ion-item-sliding *ngFor="let payment of paymentDetails">
+            <ion-item>
+              <ion-checkbox slot="start" 
+                           [(ngModel)]="payment.isSelected"
+                           [disabled]="payment.settlement_status !== 'PENDING'">
+              </ion-checkbox>
+              <ion-label>
+                <h3>Domicilio #{{ payment.delivery_id }}</h3>
+                <p>{{ payment.date | date:'dd/MM/yyyy' }}</p>
+                <p>Método: {{ payment.payment_type }}</p>
+              </ion-label>
+              <ion-badge slot="end" 
+                       [color]="payment.settlement_status === 'PENDING' ? 'warning' : 'success'">
+                {{ payment.settlement_status === 'PENDING' ? 'Pendiente' : 'Liquidado' }}
+              </ion-badge>
+              <ion-note slot="end">
+                <div>${{ payment.rider_amount.toLocaleString() }}</div>
+              </ion-note>
+            </ion-item>
+            <ion-item-options side="end">
+              <ion-item-option 
+                color="primary" 
+                (click)="handleSettlePayment(payment)" 
+                [disabled]="payment.settlement_status !== 'PENDING'">
+                Liquidar
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+    
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button (click)="openSettlementModal()" 
+                     [disabled]="!hasPendingPayments() || !hasSelectedPayments()">
+        <ion-icon name="cash"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </div>
+  
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+</ion-content>

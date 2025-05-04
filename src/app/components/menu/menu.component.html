@@ -1,0 +1,49 @@
+
+<ion-list (swipe)="handleSwipe()">
+  <ion-menu-toggle>
+    <ion-item button (click)="navigateTo('/home')">
+      <ion-icon slot="start" name="home-outline" color="primary"></ion-icon>
+      <ion-label>Inicio</ion-label>
+    </ion-item>
+  
+
+  
+    <ion-item routerLink="/clients" routerDirection="root">
+      <ion-icon slot="start" name="people-outline" color="primary"></ion-icon>
+      <ion-label>Clientes</ion-label>
+    </ion-item>
+ 
+
+  
+    <ion-item routerLink="/deliveries" routerDirection="root">
+      <ion-icon slot="start" name="bag-handle-outline" color="primary"></ion-icon>
+      <ion-label>Domicilios</ion-label>
+    </ion-item>
+
+  
+    <ion-item routerLink="/riders" routerDirection="root">
+      <ion-icon slot="start" name="bicycle-outline" color="primary"></ion-icon>
+      <ion-label>Domiciliarios</ion-label>
+    </ion-item>  
+
+  
+    <ion-item routerLink="/payments" routerDirection="root">
+      <ion-icon slot="start" name="card-outline" color="primary"></ion-icon>
+      <ion-label>Pagos</ion-label>
+    </ion-item>
+
+    <ion-item routerLink="/register" routerDirection="root">
+      <ion-icon slot="start" name="id-card-outline" color="primary"></ion-icon>
+     
+      <ion-label>Registro</ion-label>
+    </ion-item>
+   
+
+    <ion-item (click) = OnlogOut() routerDirection="root" style="cursor: pointer;">      
+      <ion-icon  slot="start" name="log-out-outline" color="primary"></ion-icon>
+      <ion-label>LogOut</ion-label>
+    </ion-item>
+
+  </ion-menu-toggle>
+  
+</ion-list>

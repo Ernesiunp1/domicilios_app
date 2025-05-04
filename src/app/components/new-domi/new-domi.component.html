@@ -1,0 +1,148 @@
+
+<div class="card-new-comi"  >
+
+  <ion-card  class="card-domi" >
+    
+    <ion-card-title>Crear Nuevo Domicilio</ion-card-title>
+
+    <div class="ion-padding">
+      <form [formGroup]="domicilioForm" (ngSubmit)="onSubmit()">
+        <ion-list>
+          <!-- Client ID -->
+ 
+          <ion-grid fixed>
+            <ion-row>
+              <ion-col size="6">
+
+                <ion-item>
+                  <ion-label   position="floating">Cliente</ion-label>
+                  <ion-select  formControlName="client_id" *ngIf="clients.length > 0">
+                    <ion-select-option *ngFor="let client of clients" [value]="client.id">
+                      {{ client.client_name }}
+                    </ion-select-option>
+                  </ion-select>
+                  <ion-spinner *ngIf="clients.length === 0"></ion-spinner>
+                  <ion-note slot="error" *ngIf="isInvalid('rider_id')">Este campo es obligatorio</ion-note>
+                </ion-item>
+              </ion-col>
+              
+              <!-- RIDER ID -->
+              <ion-col size="6">
+                <ion-item>
+                  <ion-label position="floating">Repartidor</ion-label>
+                  <ion-select  formControlName="rider_id" *ngIf="riders.length > 0">
+                    <ion-select-option *ngFor="let rider of riders" [value]="rider.id">
+                      {{ rider.name }}
+                    </ion-select-option>
+                  </ion-select>
+                  <ion-spinner *ngIf="riders.length === 0"></ion-spinner>
+                  <ion-note slot="error" *ngIf="isInvalid('rider_id')">Este campo es obligatorio</ion-note>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          
+    
+          <!-- Package Name -->
+          
+           <ion-grid fixed>
+            <ion-row>            
+              <ion-col size="6">
+                <ion-item>
+                  <ion-label  position="floating">Nombre del Paquete</ion-label>
+                  <ion-input type="text"  formControlName="package_name"></ion-input>
+                </ion-item> 
+              </ion-col>
+              <!-- Receiver Name -->
+              <ion-col size="6">
+                <ion-item>
+                  <ion-label  position="floating">Nombre del Receptor</ion-label>
+                  <ion-input type="text"  formControlName="receptor_name"></ion-input>
+                </ion-item>               
+              </ion-col>
+            </ion-row>
+           </ion-grid>
+
+
+           <!-- RECEPTOR NUMBER-->
+           <ion-grid fixed>
+            <ion-row>               
+              <ion-col size="6">               
+                <ion-item>
+                  <ion-label   position="floating">Número Receptor</ion-label>
+                  <ion-textarea rows="2" formControlName="receptor_number"></ion-textarea>
+                  <ion-note slot="error" *ngIf="isInvalid('receptor_number')">Este campo es obligatorio</ion-note>
+                </ion-item>
+              </ion-col>
+              <!-- Delivery Address -->
+              <ion-col size="6">                
+                <ion-item>
+                  <ion-label   position="floating">Dirección de Entrega</ion-label>
+                  <ion-textarea rows="2" formControlName="delivery_address"></ion-textarea>
+                  <ion-note slot="error" *ngIf="isInvalid('delivery_address')">Este campo es obligatorio</ion-note>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+           </ion-grid>
+          
+           <ion-grid fixed>
+            <ion-row>
+              <ion-col size="6">
+                <!-- Locación (Dropdown) -->
+                <ion-item>
+                  <ion-label position="floating">Locación</ion-label>
+                  <ion-select formControlName="delivery_location">
+                    <ion-select-option *ngFor="let location of deliveries_locaitions" [value]="location">
+                      {{ location }}
+                    </ion-select-option>
+                  </ion-select>
+                  <ion-note slot="error" *ngIf="isInvalid('state')">Este campo es obligatorio</ion-note>
+                </ion-item>
+
+              </ion-col>
+              <ion-col size="6">
+                <!-- State (Dropdown) -->
+                <ion-item>
+                  <ion-label position="floating">Estado</ion-label>
+                  <ion-select formControlName="state">
+                    <ion-select-option *ngFor="let estado of estadosDisponibles" [value]="estado">
+                      {{ estado }}
+                    </ion-select-option>
+                  </ion-select>
+                  <ion-note slot="error" *ngIf="isInvalid('state')">Este campo es obligatorio</ion-note>
+                </ion-item>
+
+              </ion-col>
+            </ion-row>
+           </ion-grid>
+          
+
+
+          <ion-item>
+            <ion-label   position="floating">Monto total del domicilio</ion-label>
+            <ion-textarea rows="2" formControlName="delivery_total_amount"></ion-textarea>
+            <ion-note slot="error" *ngIf="isInvalid('delivery_total_amount')">Este campo es obligatorio</ion-note>
+          </ion-item>
+
+
+        </ion-list>
+    
+        <div class="ion-padding-top">
+          <ion-button expand="block" type="submit" [disabled]="domicilioForm.invalid">
+            <ion-icon name="save-outline" slot="start"></ion-icon>
+            Guardar Domicilio
+          </ion-button>
+          
+          <ion-button expand="block" fill="outline" type="button" (click)="domicilioForm.reset()">
+            <ion-icon name="refresh-outline" slot="start"></ion-icon>
+            Limpiar Formulario
+          </ion-button>
+        </div>
+      </form>
+    </div>
+  </ion-card>
+
+  
+
+</div>
+

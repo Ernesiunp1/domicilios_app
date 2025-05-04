@@ -1,0 +1,169 @@
+<!-- rider-details.component.html -->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/riders"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalles del Domiciliario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+
+  <div *ngIf="isLoading" class="ion-padding ion-text-center">
+    <ion-spinner></ion-spinner>
+    <p>Cargando información...</p>
+  </div>
+
+  <div *ngIf="error" class="ion-padding ion-text-center">
+    <ion-icon name="alert-circle" color="danger" size="large"></ion-icon>
+    <p>{{ error }}</p>
+    <ion-button (click)="fetchRiderDetails()">Reintentar</ion-button>
+  </div>
+
+  <div class="container" *ngIf="!isLoading && !error && riderDetails">
+    <!-- Información básica del domiciliario -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ riderDetails.rider_info.name | uppercase }}</ion-card-title>
+        <ion-card-subtitle>
+          <ion-badge color="{{ riderDetails.rider_info.is_active ? 'success' : 'danger' }}">
+            {{ riderDetails.rider_info.is_active ? 'Activo' : 'Inactivo' }}
+          </ion-badge>
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item>
+            <ion-icon name="call-outline" slot="start"></ion-icon>
+            <ion-label>Teléfono</ion-label>
+            <ion-text slot="end">{{ riderDetails.rider_info.phone | uppercase }}</ion-text>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="bicycle-outline" slot="start"></ion-icon>
+            <ion-label>Placa</ion-label>
+            <ion-text slot="end">{{ riderDetails.rider_info.plate | uppercase }}</ion-text>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Resumen de actividad -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Resumen de Actividad</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6">
+              <div class="stat-item">
+                <div class="stat-value">{{ riderDetails.activity_summary.total_deliveries }}</div>
+                <div class="stat-label">Total domicilios</div>
+              </div>
+            </ion-col>
+            <ion-col size="6">
+              <div class="stat-item">
+                <div class="stat-value">{{ riderDetails.activity_summary.pending_deliveries }}</div>
+                <div class="stat-label">Pendientes</div>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="6">
+              <div class="stat-item">
+                <div class="stat-value">{{ riderDetails.activity_summary.in_progress_deliveries }}</div>
+                <div class="stat-label">En curso</div>
+              </div>
+            </ion-col>
+            <ion-col size="6">
+              <div class="stat-item">
+                <div class="stat-value">{{ riderDetails.activity_summary.completed_deliveries }}</div>
+                <div class="stat-label">Completados</div>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Historial de pagos -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Historial de Pagos</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6">
+              <div class="stat-item">
+                <div class="stat-value">{{ riderDetails.activity_summary.total_earnings | currency }}</div>
+                <div class="stat-label">Total ganado</div>
+              </div>
+            </ion-col>
+            <ion-col size="6">
+              <div class="stat-item">
+                <div class="stat-value">{{ riderDetails.activity_summary.pending_payments | currency }}</div>
+                <div class="stat-label">Pagos pendientes</div>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Domicilios recientes -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Domicilios Recientes</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div *ngIf="riderDetails.recent_deliveries.length === 0" class="ion-text-center ion-padding">
+          <p>No hay domicilios registrados</p>
+        </div>
+
+        <ion-list *ngIf="riderDetails.recent_deliveries.length > 0">
+          <ion-item-sliding *ngFor="let delivery of riderDetails.recent_deliveries">
+            <ion-item>
+              <ion-label>
+                <h2>Domicilio #{{ delivery.id }}</h2>
+                <p>Cliente: {{ delivery.client_name || 'N/A' }}</p>
+                <p>Dirección: {{ delivery.address }}</p>
+                <p>Fecha: {{ formatDate(delivery.created_at) }}</p>
+                <p>Total: {{ delivery.total_amount | currency }}</p>
+              </ion-label>
+              <ion-badge slot="end" color="{{ getStateColor(delivery.state) }}">
+                {{ delivery.state }}
+              </ion-badge>
+            </ion-item>
+            
+            <ion-item-options>
+              <ion-item-option color="primary">
+                <ion-icon slot="icon-only" name="eye-outline"></ion-icon>
+              </ion-item-option>
+            </ion-item-options>
+            
+            <!-- Detalles del pago expandibles -->
+            <ion-item *ngIf="delivery.payment_info && delivery.payment_info.length > 0">
+              <ion-label>
+                <h3>Información de Pagos</h3>
+                <div *ngFor="let payment of delivery.payment_info">
+                  <p>Monto domiciliario: {{ payment.rider_amount | currency }}</p>
+                  <p>
+                    Estado: 
+                    <ion-badge color="{{ getPaymentStatusColor(payment.settlement_status) }}">
+                      {{ payment.settlement_status }}
+                    </ion-badge>
+                  </p>
+                  <p>Tipo de pago: {{ payment.payment_type }}</p>
+                </div>
+              </ion-label>
+            </ion-item>
+          </ion-item-sliding>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

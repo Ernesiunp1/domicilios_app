@@ -1,0 +1,98 @@
+<!-- payments.page.html -->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Gestión de Pagos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="dashboard-container ion-padding">
+    <h2>Panel de Pagos</h2>
+    
+    <!-- Dashboard Cards -->
+    <div class="cards-container">
+
+
+
+      <!-- Card 1: Domiciliarios -->
+      <ion-card [routerLink]="['/payments/riders']" class="dashboard-card">
+        <div class="card-icon-container">
+          <ion-icon name="bicycle-outline" color="primary"></ion-icon>
+        </div>
+        <ion-card-header>
+          <ion-card-title>Domiciliarios</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p>Gestión de pagos y liquidaciones con domiciliarios</p>
+          <div class="card-stats">
+            <div class="stat">
+              <span class="stat-value">{{ pendingRiderPayments }}</span>
+              <span class="stat-label">Pendientes</span>
+            </div>
+            <div class="stat">
+              <!-- <span class="stat-value">{{ pendingRiderAmount | currency }}</span> -->
+              <span class="stat-value">{{ pendingRiderAmount  }}</span>
+
+              <span class="stat-label">Por pagar</span>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+
+
+      <!-- Card 2: Clientes -->
+      <ion-card [routerLink]="['/payments/clients']" class="dashboard-card">
+        <div class="card-icon-container">
+          <ion-icon name="people-outline" color="success"></ion-icon>
+        </div>
+        <ion-card-header>
+          <ion-card-title>Clientes</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p>Control de cobros y pagos a clientes</p>
+          <div class="card-stats">
+            <div class="stat">
+              <span class="stat-value">{{ pendingClientPayments }}</span>
+              <span class="stat-label">Pendientes</span>
+            </div>
+            <div class="stat">
+              <!-- <span class="stat-value">{{ pendingClientAmount | currency }}</span> -->
+              <span class="stat-value">{{ pendingClientAmount }}</span>
+
+              <span class="stat-label">Por cobrar</span>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+
+
+      <!-- Card 3: Resumen General -->
+      <ion-card (click)="navigateTo('payment-summary')" class="dashboard-card">
+        <div class="card-icon-container">
+          <ion-icon name="wallet-outline" color="tertiary"></ion-icon>
+        </div>
+        <ion-card-header>
+          <ion-card-title>Resumen</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p>Vista general y conciliación de pagos</p>
+          <div class="card-stats">
+            <div class="stat">
+              <span class="stat-value">{{ totalTransactions }}</span>
+              <span class="stat-label">Transacciones</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value">{{ totalAmount }}</span>
+              <span class="stat-label">En caja</span>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,46 @@
+
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>Liquidar Pagos</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="dismiss()">
+            <ion-icon name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-item>
+        <ion-label>
+          <h2>{{ riderName }}</h2>
+          <p>Total a liquidar: ${{ totalAmount.toLocaleString() }}</p>
+          <p>Número de pagos: {{ paymentCount }}</p>
+        </ion-label>
+      </ion-item>
+      
+      <ion-item>
+        <ion-label position="stacked">Comentarios de liquidación</ion-label>
+        <ion-textarea 
+          [(ngModel)]="comments"
+          rows="4"
+          placeholder="Ingrese detalles adicionales de la liquidación (opcional)">
+        </ion-textarea>
+      </ion-item>
+    </ion-content>
+    <ion-footer>
+      <ion-toolbar>
+        <ion-row>
+          <ion-col>
+            <ion-button expand="block" fill="outline" (click)="dismiss()">
+              Cancelar
+            </ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button expand="block" (click)="confirm()">
+              Confirmar Liquidación
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-toolbar>
+    </ion-footer>
+  
