@@ -6,6 +6,8 @@ import { tap } from 'rxjs/operators';
 
 import { BehaviorSubject, Observable, map } from 'rxjs';
 
+import { ClientsInterface } from "../interfaces/clients-interface";
+
 
 @Injectable({
   providedIn: 'root'
@@ -69,7 +71,7 @@ export class AuthService {
 
 
 ////////////////////////////////////////////// separacion de funciones
-  createClient(clientData: { client_name: string; phone: string; address: string }) {
+  createClient(clientData: ClientsInterface) {   
     return this.http.post(`${this.apiUrl}/client/create_client`, clientData);
   }
 

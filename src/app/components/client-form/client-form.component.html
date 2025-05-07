@@ -32,11 +32,45 @@
       <ion-note color="danger" *ngIf="clientForm.get('address')?.touched && clientForm.get('address')?.invalid">
         Dirección requerida.
       </ion-note>
+
+      <ion-item>
+        <ion-label position="floating">Número de cuenta</ion-label>
+        <ion-input formControlName="account_number"></ion-input>
+      </ion-item>
+      <ion-note color="danger" *ngIf="clientForm.get('account_number')?.touched && clientForm.get('account_number')?.invalid">
+        Cuenta Requerida.
+      </ion-note>
+
+      <ion-item>
+        <ion-label position="floating">Banco</ion-label>
+        <ion-input formControlName="bank"></ion-input>
+      </ion-item>
+      <ion-note color="danger" *ngIf="clientForm.get('bank')?.touched && clientForm.get('bank')?.invalid">
+        Banco Requerido.
+      </ion-note>
+
+      <ion-item>
+        
+        <ion-select label="Tipo de Cuenta"
+                   formControlName="account_type"
+                   value="tipo_cuenta" 
+                   multiple="false" 
+                   placeholder="Ahorro">
+          <ion-select-option value={{ahorro}}>Ahorro</ion-select-option>
+          <ion-select-option value={{corriente}}>Corriente</ion-select-option>
+        </ion-select>
+        
+      </ion-item>
  
       <ion-button class="boton-login" 
                   color="warning" 
                   expand="block" 
                   type="submit" [disabled]="clientForm.invalid">Registrar Cliente</ion-button>
+    
+    
+    
+                  
+                  
     </form>
 
     <ion-button color="warning" routerLink="/login" expand="block" fill="clear">

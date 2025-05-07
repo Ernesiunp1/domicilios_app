@@ -65,6 +65,7 @@ export class NewDomiComponent  implements OnInit {
       package_name: ['', Validators.required], 
       receptor_name: ['', Validators.required], 
       receptor_number: ['', Validators.required], 
+      delivery_enterprise_amount: ['', Validators.required], 
       delivery_total_amount: ['', Validators.required], 
       delivery_address: ["", Validators.required],
       delivery_location: [LocacionesEnum.MEDELLIN, Validators.required],

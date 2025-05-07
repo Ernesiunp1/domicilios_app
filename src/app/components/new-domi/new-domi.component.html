@@ -117,12 +117,31 @@
            </ion-grid>
           
 
+           <ion-grid fixed>
+            <ion-row>
+              <ion-col size="6">
 
-          <ion-item>
-            <ion-label   position="floating">Monto total del domicilio</ion-label>
-            <ion-textarea rows="2" formControlName="delivery_total_amount"></ion-textarea>
-            <ion-note slot="error" *ngIf="isInvalid('delivery_total_amount')">Este campo es obligatorio</ion-note>
-          </ion-item>
+                <ion-item>
+                  <ion-label   position="floating">Monto empresa</ion-label>
+                  <ion-textarea rows="2" formControlName="delivery_enterprise_amount"></ion-textarea>
+                  <ion-note slot="error" *ngIf="isInvalid('delivery_enterprise_amount')">Este campo es obligatorio</ion-note>
+                </ion-item>
+
+
+              </ion-col>
+              <ion-col size="6">
+
+                <ion-item>
+                  <ion-label   position="floating">Monto total del domicilio</ion-label>
+                  <ion-textarea rows="2" formControlName="delivery_total_amount"></ion-textarea>
+                  <ion-note slot="error" *ngIf="isInvalid('delivery_total_amount')">Este campo es obligatorio</ion-note>
+                </ion-item>
+
+              </ion-col>
+            </ion-row>
+           </ion-grid>
+
+            
 
 
         </ion-list>

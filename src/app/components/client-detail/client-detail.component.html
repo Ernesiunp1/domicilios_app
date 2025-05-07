@@ -19,17 +19,30 @@
 
       <ion-item-group>
         <ion-item>
-          <ion-label>Cliente : {{cliente.client_name | uppercase}}</ion-label>
+          <ion-label> <strong>Cliente:</strong> {{cliente.client_name | uppercase}}</ion-label>
         </ion-item>
 
         <ion-item>
-          <ion-label>Teléfono: {{cliente.phone}}</ion-label>
+          <ion-label> <strong>Teléfono:</strong>  {{cliente.phone}}</ion-label>
         </ion-item>
 
         <ion-item>
-          <ion-label>Direccion: {{cliente.address}}</ion-label>
+          <ion-label> <strong>Direccion:</strong>  {{cliente.address}}</ion-label>
         </ion-item>
-      
+        
+
+        <ion-item>
+          <ion-label> <strong>Número de cuenta:</strong>  {{cliente.account_number}} </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label> <strong>Banco:</strong> {{cliente.bank | uppercase  }}  </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label> <strong>Tipo de Cuenta:</strong> {{cliente.account_type}} </ion-label>
+        </ion-item>
+
         <ion-item>
           <ion-label> Estado:  @if (cliente.is_active == true) {
             <ion-chip color="success">

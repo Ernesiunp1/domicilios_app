@@ -35,15 +35,15 @@ export class ClientService {
   }
 
 
-  createClient(clientData: { client_name: string; phone: string; address: string }) {
-    console.log(clientData);
+  createClient(clientData:ClientsInterface ) {
+    console.log("cliente desde el servicio" , clientData);
     
     return this.http.post(`${this.apiUrl}/client/create_client`, clientData);
   }
 
-  updateClient(id: number, data: any): Observable<any> {
+  updateClient(id: number, data: any): Observable<any> {    
     const headers = this.getAuthHeaders();
     return this.http.put(`${this.apiUrl}/client/update?client_id=${id}`, data, { headers });
   }
-
+ 
 }

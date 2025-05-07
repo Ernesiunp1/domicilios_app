@@ -16,7 +16,7 @@
   <div class="container" >
 
     
-  <ion-card class="edit-client-form" >
+  <ion-card class="edit-client-form" > 
 
     
     
@@ -34,8 +34,43 @@
     
     <ion-item>
       <ion-label position="floating">Dirección</ion-label>
-      <ion-input [(ngModel)]="clientData.address" name="address" type="text"></ion-input>
+      <ion-input [(ngModel)]="clientData.address" 
+                  name="address" 
+                  type="text"></ion-input>
     </ion-item>
+    
+    <ion-item>
+      <ion-label position="floating">Número de cuenta</ion-label>
+      <ion-input [(ngModel)]="clientData.account_number"
+                 name="account_number"
+                 type="number"></ion-input>
+    </ion-item>
+    
+
+    <ion-item>
+      <ion-label position="floating">Banco</ion-label>
+      <ion-input [(ngModel)]="clientData.bank"
+                 name="bank"
+                 type="text"></ion-input>
+    </ion-item>
+    
+
+    <ion-item>
+      
+      <ion-select label="Tipo de Cuenta"
+                 [(ngModel)]="clientData.account_type"
+                 name="account_type"
+                 value="tipo_cuenta" 
+                 multiple="false" 
+                 placeholder="Ahorro">
+        <ion-select-option value={{ahorro}}>Ahorro</ion-select-option>
+        <ion-select-option value={{corriente}}>Corriente</ion-select-option>
+      </ion-select>
+      
+    </ion-item>
+    
+    
+    
     
     <div class="ion-padding-top">
       <ion-button expand="block" type="submit">Actualizar Cliente</ion-button>

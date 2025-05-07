@@ -10,6 +10,7 @@ import { ClientFormComponent } from 'src/app/components/client-form/client-form.
 import { ClientDetailComponent } from 'src/app/components/client-detail/client-detail.component';
 import { EditClientFormComponent } from "../../components/edit-client-form/edit-client-form.component";
 import { ModalController  } from "@ionic/angular";
+import { ClientsInterface } from 'src/app/interfaces/clients-interface';
 
 
 
@@ -28,10 +29,10 @@ import { ModalController  } from "@ionic/angular";
 export class ClientsPage implements OnInit {
   @ViewChild(ClientsListComponent) clientsListComponent!: ClientsListComponent;
 
-  clientList: boolean = true;        // Lista de clientes
-  clientDetail: boolean = false;    // Detalle de cliente
+  clientList: boolean = true;     // Lista de clientes
+  clientDetail: boolean = false;  // Detalle de cliente
   editClient: boolean = false;  
-  createClient: boolean = false    // Editar cliente
+  createClient: boolean = false   // Editar cliente
   
   
   clientup = {}; // Cliente seleccionado
@@ -141,16 +142,19 @@ export class ClientsPage implements OnInit {
 
 
   // formulario para crear cliente   
-  OnCreateClient(clientData: any){
-    return this.clientService.createClient(clientData).subscribe({
-      next: (response) => {
-        console.log('Cliente creado con éxito', response);
-        this.clientList = true;        
-      },
-      error: (error) => {
-        console.error('Error al crear el cliente', error);
-      }
-    })
+  OnCreateClient(clientData: ClientsInterface){
+
+    console.log("cliente desde el page" , clientData);
+    
+    // return this.clientService.createClient(clientData).subscribe({
+    //   next: (response) => {
+    //     console.log('Cliente creado con éxito', response);
+    //     this.clientList = true;        
+    //   },
+    //   error: (error) => {
+    //     console.error('Error al crear el cliente', error);
+    //   }
+    // })
   }
 
 
@@ -194,10 +198,14 @@ export class ClientsPage implements OnInit {
       id: client.id,
       client_name: client.client_name,
       phone: client.phone,
-      address: client.address
+      address: client.address,
+      bank: client.bank,
+      account_type: client.account_type,
+      account_number: client.account_number
+      
     } 
 
-    console.log( "esta es la data" ,data);
+    // console.log( "esta es la data" ,data);
     
 
     this.clientup = data
@@ -206,13 +214,13 @@ export class ClientsPage implements OnInit {
 
 
   updateClientData(clientData: any) {
-    console.log('Datos recibidos para actualizar:', clientData);
-    // Aquí llamarías a tu servicio para actualizar el cliente
+    // console.log('Datos recibidos para actualizar:', clientData);
+    
     // this.clientService.updateClient(clientData).subscribe(...);
 
     this.clientService.updateClient(clientData.id, clientData).subscribe({
       next: (response) => {
-        console.log('Cliente actualizado con éxito', response);
+        // console.log('Cliente actualizado con éxito', response);
         this.presentAlert('Cliente actualizado con éxito', 'Exito');
         this.presentToast('Cliente actualizado con éxito');
         this.clientList = true;        

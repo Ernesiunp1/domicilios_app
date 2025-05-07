@@ -156,6 +156,9 @@ export class DeliveryService {
  
 
   createNewDelivery(deliveryData: any): Observable<Delivery> {
+
+    console.log("FORMULARIO EN SERVICIO" , deliveryData);
+    
     
     if (deliveryData.rider_id === '') {
       deliveryData.rider_id = null; // Asignar null si el rider_id está vacío
@@ -163,7 +166,7 @@ export class DeliveryService {
     }
     
     return this.http.post<Delivery>(
-      `${this.apiUrl}/deliveries/new_delivery?client=${deliveryData.client_id}&total_amount=${deliveryData.delivery_total_amount}&rider=${deliveryData.rider_id}`, deliveryData)
+      `${this.apiUrl}/deliveries/new_delivery?client=${deliveryData.client_id}&total_amount=${deliveryData.delivery_total_amount}&rider=${deliveryData.rider_id}&coop_amount=${deliveryData.delivery_enterprise_amount}`, deliveryData)
   }
   
 

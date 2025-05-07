@@ -14,9 +14,9 @@ import { ClientFormComponent } from 'src/app/components/client-form/client-form.
   standalone: true,
   selector: 'app-register',
   templateUrl: './register.page.html',
-  imports: [IonRow, IonCol, IonGrid, IonText, IonCardSubtitle, IonIcon, IonNote, IonHeader, IonToolbar, IonTitle, 
-    IonContent, IonItem, IonLabel, IonInput, IonButton, ReactiveFormsModule, NgIf, IonCard, IonText,
-  RouterLink, RiderFormComponent, ClientFormComponent, IonToast ]
+  imports: [IonRow, IonCol, IonGrid,  IonCardSubtitle, IonIcon, IonHeader, IonToolbar, IonTitle, 
+    IonContent, IonItem, IonLabel, IonInput, IonButton, ReactiveFormsModule, NgIf, IonCard,
+  RouterLink, RiderFormComponent, ClientFormComponent ]
 })
 export class RegisterPage {
   registerForm: FormGroup;
@@ -73,8 +73,10 @@ export class RegisterPage {
   }
 
 
-  onClientFormSubmit(data: any) {
-    this.authService.createClient(data).subscribe({
+  onClientFormSubmit(data: any) {   
+    
+    this.authService.createClient(data).subscribe({     
+      
       next: () => {
         console.log('Cliente registrado con éxito');
         this.presentToast('Cliente registrado con éxito');
@@ -112,6 +114,8 @@ export class RegisterPage {
 
   onUserFormSubmit() {
     if (this.registerForm.valid) {
+      console.log('Formulario de usuario válido:', this.registerForm.value);
+      
       this.authService.register(this.registerForm.value).subscribe({
         next: () => {
           console.log('Usuario registrado con éxito');
