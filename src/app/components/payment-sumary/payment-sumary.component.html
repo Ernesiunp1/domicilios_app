@@ -1,0 +1,276 @@
+<!-- payment-summary.page.html -->
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Resumen de Pagos</ion-title>
+    <ion-button slot="end" fill="clear" (click)="refreshData()">
+      <ion-icon name="refresh-outline"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="refreshData($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Segment para cambiar vista -->
+  <ion-segment [(ngModel)]="selectedSegment" class="ion-margin">
+    <ion-segment-button value="overview">
+      <ion-icon name="stats-chart-outline"></ion-icon>
+      <ion-label>Resumen</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="status">
+      <ion-icon name="people-outline"></ion-icon>
+      <ion-label>Por Estado</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="type">
+      <ion-icon name="card-outline"></ion-icon>
+      <ion-label>Por Tipo</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="ion-text-center ion-padding">
+    <ion-spinner></ion-spinner>
+    <p>Cargando resumen...</p>
+  </div>
+
+  <!-- Contenido principal -->
+  <div *ngIf="!isLoading">
+    
+    <!-- Filtros de fecha -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="calendar-outline"></ion-icon>
+          Período de Consulta
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6">
+              <ion-item>
+                <ion-label position="stacked">Fecha Inicio</ion-label>
+                <ion-datetime 
+                  [(ngModel)]="startDate" 
+                  presentation="date"
+                  (ionChange)="onDateChange()">
+                </ion-datetime>
+              </ion-item>
+            </ion-col>
+            <ion-col size="6">
+              <ion-item>
+                <ion-label position="stacked">Fecha Fin</ion-label>
+                <ion-datetime 
+                  [(ngModel)]="endDate" 
+                  presentation="date"
+                  (ionChange)="onDateChange()">
+                </ion-datetime>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        
+        <div *ngIf="paymentSummary" class="ion-text-center ion-margin-top">
+          <ion-chip color="primary">
+            <ion-label>
+              {{ formatDate(paymentSummary.period.start_date) }} - 
+              {{ formatDate(paymentSummary.period.end_date) }}
+            </ion-label>
+          </ion-chip>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Vista de Resumen General -->
+    <div *ngIf="selectedSegment === 'overview'">
+      
+      <!-- Dashboard Cards -->
+      <div *ngIf="dashboardSummary">
+        <ion-grid>
+          <ion-row>
+            <!-- Total de transacciones -->
+            <ion-col size="6">
+              <ion-card color="primary">
+                <ion-card-content class="ion-text-center">
+                  <h2>{{ dashboardSummary.totalTransactions }}</h2>
+                  <p>Total Transacciones</p>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            
+            <!-- Monto total -->
+            <ion-col size="6">
+              <ion-card color="success">
+                <ion-card-content class="ion-text-center">
+                  <h2>{{ formatCurrency(dashboardSummary.totalAmount) }}</h2>
+                  <p>Monto Total</p>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <!-- Pagos Pendientes -->
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title color="warning">Pagos Pendientes</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-list>
+              <ion-item>
+                <ion-label>
+                  <h3>Por Pagar a Domiciliarios</h3>
+                  <p>{{ dashboardSummary.to_pay_rider_count }} pagos</p>
+                </ion-label>
+                <ion-badge color="warning" slot="end">
+                  {{ formatCurrency(dashboardSummary.to_pay_rider_total) }}
+                </ion-badge>
+              </ion-item>
+              
+              <ion-item>
+                <ion-label>
+                  <h3>Pendiente Oficina → Cliente</h3>
+                  <p>{{ dashboardSummary.pendingOfficeToClient }} pagos</p>
+                </ion-label>
+                <ion-badge color="tertiary" slot="end">
+                  {{ formatCurrency(dashboardSummary.pendingOfficeToClientAmount) }}
+                </ion-badge>
+              </ion-item>
+              
+              <ion-item>
+                <ion-label>
+                  <h3>Pendiente Cliente → Oficina</h3>
+                  <p>{{ dashboardSummary.pendingClientPayments }} pagos</p>
+                </ion-label>
+                <ion-badge color="secondary" slot="end">
+                  {{ formatCurrency(dashboardSummary.pendingClientAmount) }}
+                </ion-badge>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+      <!-- Resumen del Período -->
+      <div *ngIf="paymentSummary">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Resumen del Período</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="6">
+                  <div class="stat-card">
+                    <h3>{{ paymentSummary.totals.count }}</h3>
+                    <p>Transacciones</p>
+                  </div>
+                </ion-col>
+                <ion-col size="6">
+                  <div class="stat-card">
+                    <h3>{{ formatCurrency(paymentSummary.totals.total_amount) }}</h3>
+                    <p>Monto Total</p>
+                  </div>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="6">
+                  <div class="stat-card">
+                    <h3>{{ formatCurrency(paymentSummary.totals.rider_amount) }}</h3>
+                    <p>Para Domiciliarios</p>
+                  </div>
+                </ion-col>
+                <ion-col size="6">
+                  <div class="stat-card">
+                    <h3>{{ formatCurrency(paymentSummary.totals.coop_amount) }}</h3>
+                    <p>Para Cooperativa</p>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+
+    <!-- Vista por Estado -->
+    <div *ngIf="selectedSegment === 'status' && paymentSummary">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Pagos por Estado</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list>
+            <ion-item *ngFor="let status of getObjectKeys(paymentSummary.by_status)">
+              <ion-label>
+                <h3>{{ getStatusLabel(status) }}</h3>
+                <p>{{ paymentSummary.by_status[status].count }} transacciones</p>
+                <ion-progress-bar 
+                  [value]="calculatePercentage(paymentSummary.by_status[status].amount, paymentSummary.totals.total_amount) / 100"
+                  [color]="statusColors[status] || 'medium'">
+                </ion-progress-bar>
+              </ion-label>
+              <div slot="end" class="ion-text-end">
+                <ion-badge [color]="statusColors[status] || 'medium'">
+                  {{ formatCurrency(paymentSummary.by_status[status].amount) }}
+                </ion-badge>
+                <p style="font-size: 0.8em; margin-top: 4px;">
+                  {{ calculatePercentage(paymentSummary.by_status[status].amount, paymentSummary.totals.total_amount).toFixed(1) }}%
+                </p>
+              </div>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Vista por Tipo -->
+    <div *ngIf="selectedSegment === 'type' && paymentSummary">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Pagos por Tipo</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list>
+            <ion-item *ngFor="let type of getObjectKeys(paymentSummary.by_type)">
+              <ion-icon 
+                [name]="type === 'CASH' ? 'cash-outline' : 'card-outline'" 
+                slot="start"
+                [color]="typeColors[type] || 'medium'">
+              </ion-icon>
+              <ion-label>
+                <h3>{{ getTypeLabel(type) }}</h3>
+                <p>{{ paymentSummary.by_type[type].count }} transacciones</p>
+                <ion-progress-bar 
+                  [value]="calculatePercentage(paymentSummary.by_type[type].amount, paymentSummary.totals.total_amount) / 100"
+                  [color]="typeColors[type] || 'medium'">
+                </ion-progress-bar>
+              </ion-label>
+              <div slot="end" class="ion-text-end">
+                <ion-badge [color]="typeColors[type] || 'medium'">
+                  {{ formatCurrency(paymentSummary.by_type[type].amount) }}
+                </ion-badge>
+                <p style="font-size: 0.8em; margin-top: 4px;">
+                  {{ calculatePercentage(paymentSummary.by_type[type].amount, paymentSummary.totals.total_amount).toFixed(1) }}%
+                </p>
+              </div>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Botón de exportar -->
+    <ion-card>
+      <ion-card-content>
+        <ion-button expand="block" fill="outline" (click)="exportData()">
+          <ion-icon name="download-outline" slot="start"></ion-icon>
+          Exportar Datos
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+    
+  </div>
+</ion-content>

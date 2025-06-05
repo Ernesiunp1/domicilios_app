@@ -1,8 +1,20 @@
-<ion-header>
+<!-- <ion-header>
   <ion-toolbar color="primary">
     <ion-title>Pagos de Clientes</ion-title>
   </ion-toolbar>
+</ion-header> -->
+
+
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/payments"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Pagos de Clientes</ion-title>
+  </ion-toolbar>
 </ion-header>
+
+
 
 <ion-content class="ion-padding">
   <ion-card>
@@ -21,14 +33,17 @@
       </ion-item>
 
       <!-- Botón para procesar pagos seleccionados -->
-      <ion-button expand="block" color="success" (click)="processSelectedPayments()" [disabled]="getSelectedPayments().length === 0">
+      <ion-button expand="block" color="success" 
+                  (click)="sendSelectedPayments()"
+                  [disabled]="!hasSelectedPayments"  
+                  >
         Procesar Pagos Seleccionados
       </ion-button>
 
       <!-- Mensaje de error si existe -->
       <ion-item *ngIf="error" color="danger">
         <ion-label>{{ error }}</ion-label>
-      </ion-item>
+      </ion-item> 
 
       <!-- Indicador de carga -->
       <div class="ion-text-center" *ngIf="isLoading">
@@ -40,7 +55,7 @@
       <ion-grid *ngIf="!isLoading && clientPaymentDetails.length > 0">
         <ion-row class="header-row">
           <ion-col size="1">
-            <ion-checkbox (ionChange)="selectAll($event)"></ion-checkbox>
+            <!-- <ion-checkbox (ionChange)="selectAll($event)"></ion-checkbox> -->
           </ion-col>
           <ion-col size="2">ID</ion-col>
           <ion-col size="3">Cliente</ion-col>
@@ -49,24 +64,24 @@
           <ion-col size="2">Estado</ion-col>
         </ion-row>
 
-        <ion-row *ngFor="let payment of clientPaymentDetails" class="data-row">
+        <div *ngFor="let payment of clientPaymentDetails" class="data-row">
+        <ion-row *ngIf="payment.client_settlement_status == 'PENDING' "  >
+          
           <ion-col size="1">
-            <ion-checkbox [(ngModel)]="payment.isSelected"></ion-checkbox>
+            <ion-checkbox [(ngModel)]="payment.isSelected" 
+                          (ionChange)="updateHasSelectedPayments()"></ion-checkbox>
           </ion-col>
           <ion-col size="2">{{ payment.id }}</ion-col>
-          <ion-col size="3">{{ payment.clientName }}</ion-col>
-          <ion-col size="2">{{ payment.amount | currency }}</ion-col>
+          <ion-col size="3">{{ payment.clientName }}</ion-col> 
+          <ion-col size="2"> {{ payment.amount | currency }}</ion-col>          
           <ion-col size="2">{{ payment.date | date:'dd/MM/yyyy' }}</ion-col>
-          <ion-col size="2">
-            <ion-badge [color]="
-              payment.status === 'PENDING' ? 'warning' : 
-              payment.status === 'PAID' ? 'success' : 'danger'
-            ">
-              {{ payment.status === 'PENDING' ? 'Pendiente' : 
-                payment.status === 'PAID' ? 'Pagado' : 'Cancelado' }}
-            </ion-badge>
-          </ion-col>
+          
+          <ion-col size="2" *ngIf="payment.amount! < 0" ><ion-badge color="danger"> cobrar</ion-badge></ion-col>
+          <ion-col size="2" *ngIf="payment.amount! > 0" ><ion-badge color="warning" >pagar</ion-badge></ion-col>
+          
         </ion-row>
+        </div>
+
       </ion-grid>
 
       <!-- Mensaje cuando no hay datos -->

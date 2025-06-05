@@ -2,23 +2,21 @@ import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { IonHeader, IonContent, IonToolbar, IonTitle, IonNote, IonItem,
-   IonLabel, IonInput, IonButton, IonButtons, IonBackButton, IonCard, 
-   IonCardTitle, IonGrid, IonCol, IonRow, IonIcon, IonCardSubtitle,
+   IonLabel, IonInput, IonButton, IonCard,  IonIcon, IonCardSubtitle,
    IonAlert, IonInputPasswordToggle } from "@ionic/angular/standalone";
 import { NgIf } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-// import { CommonModule } from '@angular/common';
-import { IonicModule, AlertController, ToastController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
 
 
 @Component({
   standalone: true,
   selector: 'app-login',
   templateUrl: 'login.page.html',
-  imports: [IonCardSubtitle, IonIcon, IonRow, IonCol, IonGrid, IonCardTitle, IonCard, 
+  imports: [IonCardSubtitle, IonIcon, IonCard, 
     IonInput, IonNote, IonHeader, IonContent, IonToolbar, IonTitle, 
-    IonItem, IonLabel, IonButton, IonButtons, IonBackButton, 
-    ReactiveFormsModule, NgIf, RouterLink, IonAlert, IonInputPasswordToggle,
+    IonItem, IonLabel, IonButton, ReactiveFormsModule, NgIf, RouterLink, 
+    IonAlert, IonInputPasswordToggle,
   ]
 })
 export class LoginPage {
@@ -43,7 +41,6 @@ export class LoginPage {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private alertController: AlertController,
     private toastController: ToastController
     
   ) {
@@ -74,11 +71,7 @@ export class LoginPage {
         console.error('Error de login:', err);
         this.errorMessage = this.error
         this.showErrorAlert = true;
-        // this.alertController.create({
-        //   header: 'Error',
-        //   message: 'Credenciales incorrectas',
-        //   buttons: ['OK']
-        // }).then(alert => alert.present());
+
         
         this.loading = false;
       

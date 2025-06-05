@@ -38,7 +38,7 @@
                     <th>Dirección Entrega</th>
                     <th>Estado</th>
                     <th>Fecha Creación</th>
-                    <th>Fecha Entrega</th>
+                    <!-- <th>Fecha Entrega</th> -->
                     <!-- <th>Estado Pago</th> -->
                     <th>Monto Total</th>
                     <!-- <th>Tipo Pago</th> -->
@@ -77,7 +77,7 @@
                     <!-- FECHA DE CREACION-->
                     <td>{{ formatDate(delivery.created_at) }}</td>
                     <!-- FECHA DE ENTREGA-->
-                    <td>{{ formatDate(delivery.delivery_date) }}</td>                  
+                    <!-- <td>{{ formatDate(delivery.delivery_date) }}</td>                   -->
                     
                     <!-- ESTADO DEL PAGO -->
                     <!-- <td>                      
@@ -102,10 +102,15 @@
                     <!-- btns de acciones -->
                     <td>
                       <ion-buttons>
+                        <ion-button  (click)="detalleDomi(delivery)" fill="clear" color="warning">
+                          <ion-icon name="eye" slot="icon-only"></ion-icon>
+                        </ion-button>
                         <ion-button  (click)="AgregarRider(delivery.id)" fill="clear" color="primary">
                           <ion-icon name="bicycle-outline" slot="icon-only"></ion-icon>
                         </ion-button>
-                        <ion-button  (click) ="changeState(delivery, deliveryStates.DELIVERED)" fill="clear" color="success">
+                        <ion-button  (click)="changeState(delivery, deliveryStates.DELIVERED)  "                                      
+                                     fill="clear"  
+                                     color="success">
                           <ion-icon name="checkmark-done-circle-outline"></ion-icon>
                         </ion-button>
                         <ion-button (click) ="changeState(delivery, deliveryStates.CANCELLED)" fill="clear" color="danger">
@@ -145,5 +150,6 @@
 
 
   <h1>{{DeliveriesSemanal}}</h1>
+
 
 </ion-content>

@@ -1,11 +1,12 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { addIcons } from 'ionicons';
-import { eye, add, sync, closeCircleOutline, bicycleOutline, homeOutline, bagHandleOutline, carOutline,
+import { eye, add, sync, closeCircleOutline, bicycleOutline, bicycle, homeOutline, bagHandleOutline, carOutline,
   peopleOutline, cardOutline, idCardOutline, personOutline, logOut, logOutOutline, exit, walletOutline,
   addCircleOutline, search, chevronBack, eyeOutline, chevronForward, checkmarkDoneOutline,
   saveOutline, callOutline, refreshOutline, checkmarkDoneCircleOutline, closeOutline, 
-  alertCircle, refresh, cash, close, person } from 'ionicons/icons';
+  alertCircle, refresh, cash, close, person, home, pin, pinOutline, locate
+   } from 'ionicons/icons';
 
 
 
@@ -56,6 +57,12 @@ addIcons({
   "close": close,
   "person": person,
   "checkmark-done": checkmarkDoneOutline,
+  "home": home,
+  "bycicle": bicycle,
+  "pin": pin,
+  "pin-outline": pinOutline,
+  "locate": locate
+  
 });
 
 @Component({

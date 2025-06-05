@@ -34,11 +34,31 @@
             </div>
             <div class="stat">
               <!-- <span class="stat-value">{{ pendingRiderAmount | currency }}</span> -->
-              <span class="stat-value">{{ pendingRiderAmount  }}</span>
+              <span class="stat-value1">{{ pendingRiderAmount  }}</span>
+
+              <span class="stat-label">Por recibir</span>
+            </div>
+
+            
+          </div>
+
+          <!-- DOMICILIOS QUE SE LE DEBEN A LOS DOMICILIARIOS -->
+          <div class="card-stats">
+            <div class="stat">
+              <span class="stat-value" color="danger" >{{ pendingDomisToPayToRiderCount }}</span>
+              <span class="stat-label">Pendientes</span>
+            </div>
+            <div class="stat">
+              
+              <span class="stat-value2">{{ pendingToPaytoRiderTotal  }}</span>
 
               <span class="stat-label">Por pagar</span>
             </div>
+
+            
           </div>
+
+          
         </ion-card-content>
       </ion-card>
 
@@ -61,9 +81,22 @@
             </div>
             <div class="stat">
               <!-- <span class="stat-value">{{ pendingClientAmount | currency }}</span> -->
-              <span class="stat-value">{{ pendingClientAmount }}</span>
+              <span class="stat-value1">{{ pendingClientAmount }}</span> 
 
               <span class="stat-label">Por cobrar</span>
+            </div>
+          </div>
+
+          <div class="card-stats"> 
+            <div class="stat">
+              <span class="stat-value">{{ pendingOfficeToClient }}</span>
+              <span class="stat-label">Pendientes</span>
+            </div>
+            <div class="stat">
+              <!-- <span class="stat-value">{{ pendingClientAmount | currency }}</span> -->
+              <span class="stat-value2">{{ pendingOfficeToClientAmount }}</span> 
+
+              <span class="stat-label">Por pagar</span>
             </div>
           </div>
         </ion-card-content>
@@ -72,7 +105,7 @@
 
 
       <!-- Card 3: Resumen General -->
-      <ion-card (click)="navigateTo('payment-summary')" class="dashboard-card">
+      <ion-card [routerLink]="['/payments/sumary']" class="dashboard-card">
         <div class="card-icon-container">
           <ion-icon name="wallet-outline" color="tertiary"></ion-icon>
         </div>

@@ -19,5 +19,30 @@ export interface PaymentDetail {
       }
 
 
+export enum SettlementStatus {
+
+        PENDING = "PENDING",
+        CLEARED = "CLEARED",
+        SETTLED = "SETTLED",
+        TRANSFER_TO_OFFICE = "TRANSFER_TO_OFFICE",
+        TRANFERRED_TO_CLIENT =  "TRANSFERRED_TO_CLIENT"
+
+}
+
+export enum ClientSettlementStatus {
+        PENDING = "PENDING",
+        SETTLED = "SETTLED",
+}
+
+export enum PaymentStatus {
+    COURIER = "COURIER",
+    OFFICE = "OFFICE",
+    OFFICE_RECIEVED_TRANSFER = "OFFICE_RECIEVED_TRANSFER",
+    CLIENT_RECIEVED_TRANSFER = "CLIENT_RECEIVED_TRANSFER",
+    CLIENT = "CLIENT",
+}
+      
+
+
 
 

@@ -7,14 +7,28 @@
 
     </ion-buttons>
     @if(!originalState){
-      <ion-back-button slot="end" 
+
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-buttons slot="start">
+            <ion-back-button defaultHref="/deliveries"
+            (click) = 'statusDefault()'></ion-back-button>
+          </ion-buttons>
+          <ion-title>Detalles del Domiciliario</ion-title>
+        </ion-toolbar>
+      </ion-header>
+
+
+      <!-- <ion-back-button slot="end" 
                        defaultHref="/deliveries"
                        text="Atrás" 
                        
-                       (click) = 'statusDefault()'></ion-back-button>
+                       (click) = 'statusDefault()'></ion-back-button> -->
     } 
-    
-    <ion-title> Gestion de Domicilios</ion-title>
+    @if(originalState){
+      <ion-title> Gestion de Domicilios</ion-title>
+
+    }
     
     
   
@@ -61,9 +75,19 @@
    
   }
 
- 
 
- 
+  <!-- <ion-item >
+    <ion-select [(ngModel)]="settlementStatusSelected"                
+                multiple="false">
+
+            <ion-select-option value={{settlementStatus.CLEARED}}>ACLARADO</ion-select-option>
+            <ion-select-option value={{settlementStatus.PENDING}}>PENDIENTE</ion-select-option>
+            <ion-select-option value={{settlementStatus.SETTLED}}>ENTREGADO</ion-select-option>
+            <ion-select-option value={{settlementStatus.TRANFERRED_TO_CLIENT}}>TRANF CLIENTE</ion-select-option>
+    </ion-select>    
+  </ion-item> -->
+
+      
 
 
 </ion-content>

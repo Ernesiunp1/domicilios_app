@@ -7,6 +7,7 @@ import { tap } from 'rxjs/operators';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 
 import { ClientsInterface } from "../interfaces/clients-interface";
+import { environment } from '../../environments/environment'; 
 
 
 @Injectable({
@@ -14,7 +15,7 @@ import { ClientsInterface } from "../interfaces/clients-interface";
 })
 export class AuthService {
   private _storage: Storage | null = null; 
-  private apiUrl = 'http://localhost:8000';
+  private apiUrl = environment.apiUrl;
   private tokenSubject = new BehaviorSubject<string | null>(localStorage.getItem('token'))
 
   public isAuthenticated$: Observable<boolean> = this.tokenSubject.pipe(
@@ -71,7 +72,9 @@ export class AuthService {
 
 
 ////////////////////////////////////////////// separacion de funciones
-  createClient(clientData: ClientsInterface) {   
+  createClient(clientData: ClientsInterface) {  
+    console.log("cliente desde el auth service", clientData);
+     
     return this.http.post(`${this.apiUrl}/client/create_client`, clientData);
   }
 
@@ -85,8 +88,23 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/user/register`, userData);
   }
   
+
   isAuthenticated(): boolean {
-    return !!this.tokenSubject.value;
+    const token = this.tokenSubject.value;
+    if (!token) return false;
+    return !this.isTokenExpired(token);
+  }
+
+  
+  private isTokenExpired(token: string): boolean {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const exp = payload.exp;
+      const now = Math.floor(Date.now() / 1000);
+      return exp < now;
+    } catch (e) {
+      return true; // Si el token está mal formado, lo consideramos vencido
+    }
   }
 
   

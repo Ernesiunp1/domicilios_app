@@ -14,4 +14,7 @@ export interface ClientPaymentDetail {
   deliveryCount?: number;
   total_deliveries?: number;
   isSelected?: boolean;
+  saldo_neto?: number;
+  client_settlement_status?: string;
+  payment_ids_list?: number[];
   }

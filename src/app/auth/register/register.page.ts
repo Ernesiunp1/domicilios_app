@@ -75,11 +75,16 @@ export class RegisterPage {
 
   onClientFormSubmit(data: any) {   
     
-    this.authService.createClient(data).subscribe({     
+    console.log("cliente desde el registerpage ", data);
+    
+
+    this.authService.createClient(data).subscribe({        
+        
       
       next: () => {
         console.log('Cliente registrado con éxito');
         this.presentToast('Cliente registrado con éxito');
+        this.presentAlert('Cliente creado con éxito')
         this.router.navigate(['/login']);      
       
       },

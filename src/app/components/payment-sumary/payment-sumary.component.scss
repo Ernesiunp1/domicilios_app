@@ -1,0 +1,193 @@
+/* payment-summary.page.scss */
+
+// Estilos para las tarjetas de estadísticas
+.stat-card {
+    text-align: center;
+    padding: 8px;
+    
+    h3 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--ion-color-primary);
+    }
+    
+    p {
+      margin: 4px 0 0 0;
+      font-size: 0.9rem;
+      color: var(--ion-color-medium);
+    }
+  }
+  
+  // Mejoras para las tarjetas principales
+  ion-card {
+    margin: 8px;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    
+    &[color="primary"] {
+      --background: var(--ion-color-primary);
+      --color: var(--ion-color-primary-contrast);
+      
+      h2, p {
+        color: var(--ion-color-primary-contrast);
+      }
+    }
+    
+    &[color="success"] {
+      --background: var(--ion-color-success);
+      --color: var(--ion-color-success-contrast);
+      
+      h2, p {
+        color: var(--ion-color-success-contrast);
+      }
+    }
+  }
+  
+  // Estilos para los elementos de lista mejorados
+  ion-item {
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --min-height: 60px;
+    
+    ion-label {
+      h3 {
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+      
+      p {
+        color: var(--ion-color-medium);
+        font-size: 0.9rem;
+      }
+    }
+  }
+  
+  // Estilos para las barras de progreso
+  ion-progress-bar {
+    margin-top: 8px;
+    height: 6px;
+    border-radius: 3px;
+  }
+  
+  // Estilos para badges mejorados
+  ion-badge {
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 12px;
+  }
+  
+  // Estilos para el segmento
+  ion-segment {
+    --background: var(--ion-color-light);
+    border-radius: 8px;
+    padding: 4px;
+    
+    ion-segment-button {
+      --color-checked: var(--ion-color-primary-contrast);
+      --background-checked: var(--ion-color-primary);
+      --indicator-color: transparent;
+      border-radius: 6px;
+      margin: 2px;
+      min-height: 40px;
+      
+      ion-label {
+        font-size: 0.85rem;
+        font-weight: 500;
+      }
+      
+      ion-icon {
+        font-size: 1.2rem;
+        margin-bottom: 2px;
+      }
+    }
+  }
+  
+  // Estilos para el header
+  ion-header {
+    ion-toolbar {
+      --background: var(--ion-color-primary);
+      --color: var(--ion-color-primary-contrast);
+      
+      ion-title {
+        font-weight: 600;
+      }
+      
+      ion-button {
+        --color: var(--ion-color-primary-contrast);
+      }
+    }
+  }
+  
+  // Estilos para el chip de fecha
+  ion-chip {
+    --background: var(--ion-color-primary-tint);
+    --color: var(--ion-color-primary-shade);
+    font-weight: 500;
+  }
+  
+  // Estilos para el contenedor de loading
+  .ion-text-center {
+    ion-spinner {
+      --color: var(--ion-color-primary);
+      transform: scale(1.2);
+    }
+    
+    p {
+      color: var(--ion-color-medium);
+      margin-top: 16px;
+      font-size: 0.9rem;
+    }
+  }
+  
+  // Animaciones suaves
+  ion-card, ion-item, ion-button {
+    transition: all 0.2s ease-in-out;
+  }
+  
+  ion-button:hover {
+    transform: translateY(-1px);
+  }
+  
+  // Responsive adjustments
+  @media (max-width: 768px) {
+    .stat-card {
+      h3 {
+        font-size: 1.3rem;
+      }
+      
+      p {
+        font-size: 0.8rem;
+      }
+    }
+    
+    ion-card {
+      margin: 4px;
+    }
+    
+    ion-segment {
+      ion-segment-button {
+        ion-label {
+          font-size: 0.75rem;
+        }
+        
+        ion-icon {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+  
+  // Dark mode adjustments
+  @media (prefers-color-scheme: dark) {
+    .stat-card {
+      h3 {
+        color: var(--ion-color-primary-tint);
+      }
+    }
+    
+    ion-card {
+      box-shadow: 0 2px 12px rgba(255, 255, 255, 0.05);
+    }
+  }

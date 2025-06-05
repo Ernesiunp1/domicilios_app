@@ -2,9 +2,14 @@ import { Component, OnInit, ChangeDetectorRef, EventEmitter, output, Output, Inp
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
-import { Delivery, Item, DeliveryStanding, PaymentStatus, PaymentType } from '../../interfaces/deliveries';
+import { Delivery, Item, DeliveryStanding, PaymentStatus, PaymentType,  } from '../../interfaces/deliveries';
 import { DeliveryService } from '../../pages/deliveries/delivery.service'
 import { RidersInterface } from 'src/app/interfaces/riders-interface';
+import { Router, RouterLink } from '@angular/router';
+import { DeliveryStateService } from '../domi-detail/delivery-state.service';
+import { SettlementStatus } from 'src/app/interfaces/payments-interfaces';
+import { PaymentsService } from 'src/app/pages/payments/payments.service';
+
 
 
 
@@ -53,6 +58,7 @@ export class DeliveriesComponent implements OnInit {
   // Para el filtro de estado
   states: DeliveryStanding[] = [];
   selectedState: DeliveryStanding | null = null;
+   
   
   // Para mostrar el spinner de carga
   isLoading: boolean = false;
@@ -62,8 +68,14 @@ export class DeliveriesComponent implements OnInit {
   paymentStatuses = PaymentStatus;
   paymentTypes = PaymentType;
 
+
+  
+
   constructor(private deliveryService: DeliveryService, 
               private cdr: ChangeDetectorRef,
+              private router: Router,
+              private deliveryStateService: DeliveryStateService,
+              private paymentServices: PaymentsService
                 
   ) { }
 
@@ -189,25 +201,26 @@ export class DeliveriesComponent implements OnInit {
     console.log('ID de la entrega:', delivery.id);
 
     this.onSubmitUpdateState.emit({delivery, newState});
-    
-  // actualizarTabla(this.updateState: any){
-  //   if (!this.updateState){
-  //     this.loadDeliveries()
-  //   }
-  // }
+     
+
+ 
   }
 
 
   processDeliveriesSemanal() {
     // Aquí puedes hacer cualquier procesamiento adicional con los datos filtrados
     // Por ejemplo, calcular estadísticas, actualizar gráficos, etc.
-    this.totalDeliveries = this.deliveries.length;
-    
-    
-    
-    
+    this.totalDeliveries = this.deliveries.length;   
     // Lógica adicional específica para las entregas semanales
     // this.DeliveySemana();
+  }
+
+
+  detalleDomi(delivery: any){
+    // console.log("detalle domi" ,delivery);
+    this.deliveryStateService.setSelectedDelivery(delivery)
+    
+    this.router.navigate(['delivery/details'])
   }
 
   // DeliveySemana(){
@@ -218,5 +231,19 @@ export class DeliveriesComponent implements OnInit {
   
   
 
+  
+    
+
+    // this.paymentServices.updatePaymentStatus(payment_id, settlementStatus).subscribe({
+    //   next: (resp) =>{
+    //     console.log(resp);
+        
+    //   },
+    //   error: (err) => {
+    //     console.log(err);
+        
+    //   }
+    // })
+  
 
 }

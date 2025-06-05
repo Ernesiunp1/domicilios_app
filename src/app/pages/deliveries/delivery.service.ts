@@ -5,7 +5,7 @@ import { Observable, map, forkJoin, of } from 'rxjs';
 import { Delivery, DeliveryStanding, Item} from '../../interfaces/deliveries';
 import { RidersInterface } from "../../interfaces/riders-interface";
 import { ClientsInterface } from "../../interfaces/clients-interface";
-
+import { environment } from "src/environments/environment";
 @Injectable({
   providedIn: 'root'
 })
@@ -14,7 +14,7 @@ import { ClientsInterface } from "../../interfaces/clients-interface";
 export class DeliveryService {
  
  
-  private apiUrl = 'http://localhost:8000';
+  private apiUrl = environment.apiUrl;
   
   private deliveriesCache: Delivery[] = [];
 
@@ -168,6 +168,9 @@ export class DeliveryService {
     return this.http.post<Delivery>(
       `${this.apiUrl}/deliveries/new_delivery?client=${deliveryData.client_id}&total_amount=${deliveryData.delivery_total_amount}&rider=${deliveryData.rider_id}&coop_amount=${deliveryData.delivery_enterprise_amount}`, deliveryData)
   }
+
+
+  
   
 
   getIdsRiders(): Observable<RidersInterface[]> {
@@ -196,7 +199,7 @@ export class DeliveryService {
     state: DeliveryStanding | null
   ): Observable<any> {
     
-    const baseUrl = 'http://localhost:8000/deliveries/filtered';
+    const baseUrl = `${this.apiUrl}/deliveries/filtered`;
     let params = new HttpParams()
       .set('page', '1')
       .set('size', '20');

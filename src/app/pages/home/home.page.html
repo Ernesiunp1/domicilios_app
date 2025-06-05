@@ -1,5 +1,5 @@
-<ion-header>
-  <ion-toolbar>
+<ion-header *ngIf="originalState" >
+  <ion-toolbar color="primary" >
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button> <!-- Botón hamburguesa -->
     </ion-buttons>
@@ -7,4 +7,134 @@
   </ion-toolbar>
 </ion-header>
 
+<ion-header *ngIf="!originalState" >
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button (click) = "resetOriginalState()"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Volver Inicio</ion-title>
+  </ion-toolbar>
+</ion-header>
 
+
+<ion-content [fullscreen]="true" 
+             class="ion-padding"
+             *ngIf = "originalState">
+
+    <div class="dashboard-container ion-padding">
+    <div class="cards-container" >
+
+
+    
+    <!-- Tarjetas de métricas -->
+
+
+        <ion-card class="dashboard-card" (click)="goTo('deliveries')">
+          <ion-card-header>
+            <div class="card-icon-container" >
+              <ion-icon name="home" aria-hidden="true" color = "tertiary" ></ion-icon>
+            </div>
+            <ion-card-title>Domicilios hoy:</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <!-- <span class="stat-value">{{ deliveriesToday$ }}</span> -->
+             <ion-card-title color="primary">{{ deliveriesToday$ | async }}</ion-card-title>
+            <!-- <span class="stat-value">{{ deliveriesToday$ | async }}</span> -->
+
+          </ion-card-content>
+        </ion-card>
+
+
+
+        <ion-card class="dashboard-card" (click)="goTo('riders')" >
+          <ion-card-header>
+            <div class="card-icon-container" >
+            <ion-icon name="bicycle-outline" color="primary" aria-hidden="true"></ion-icon>
+            </div>
+            <ion-card-title>Riders activos:</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <!-- <span class="stat-value"></span> -->
+            <ion-card-title color="primary" >{{ riders  }}</ion-card-title>
+            <!-- <span class="stat-value">{{ activeRiders$ | async }}</span> -->
+
+          </ion-card-content>
+        </ion-card>
+
+
+  
+        <ion-card class="dashboard-card" (click)="goTo('payments')" >
+          <ion-card-header>
+            <div class="card-icon-container" >
+            <ion-icon name="cash" aria-hidden="true" color="success" ></ion-icon>
+            </div>
+            <ion-card-title>Pagos pendientes</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-card-title color="success" >${{ pendingRiderAmount   }}</ion-card-title>
+            
+          </ion-card-content>
+        </ion-card>
+
+
+    </div>
+    </div>
+
+    <!-- Botones de acciones rápidas -->
+  <ion-grid fixed>
+      
+    <ion-row>
+      <ion-col size="4">
+        <ion-button expand="block"  
+                    (click)="viewMap()"
+                    >
+          <ion-icon name="locate" slot="start" mode="ios" ></ion-icon>
+          Ver mapa de entregas
+        </ion-button>
+      </ion-col>
+
+      <ion-col size="4">
+        <ion-button expand="block"  
+                    (click)="createDelivery()">
+          <ion-icon name="add" slot="start"></ion-icon>
+          Crear domicilio
+        </ion-button>
+      </ion-col>
+
+      <ion-col size="4">
+        <ion-button expand="block"  (click)="assignRider()">
+          <ion-icon name="person" slot="start"></ion-icon>
+          
+          Asignar rider
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Lista de próximas entregas -->
+  <ion-list>
+    <ion-item lines="none">
+      <ion-label class="subtitle">Próximas entregas:</ion-label >
+    </ion-item>
+
+   
+    <ion-item *ngFor="let delivery of upcomingDeliveries$ | async" lines="full">
+
+      <ion-label>
+        <h3>{{ delivery.package_name }} – {{ delivery.delivery_address }}</h3>
+      </ion-label>
+      <ion-note slot="end">({{ delivery.rider.name }})</ion-note>
+    </ion-item>
+  </ion-list>
+
+
+
+
+
+</ion-content>
+
+<ion-content *ngIf = "!originalState">
+  
+  <app-new-domi (formSubmit)="handlerFormSubmit($event)"></app-new-domi>
+
+</ion-content>

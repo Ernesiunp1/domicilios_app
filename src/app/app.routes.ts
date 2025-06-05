@@ -3,6 +3,8 @@ import { authGuard } from './auth/auth.guard';
 import { RiderDetailsComponent } from './components/rider-details/rider-details.component';
 import { PaymentsDomiComponent } from './components/payment-domi/payment-domi.component';
 import { PaymentsClientComponent } from './components/payment-client/payment-client.component';
+import { DomiDetailComponent } from './components/domi-detail/domi-detail.component';
+import { PaymentSumaryComponent } from './components/payment-sumary/payment-sumary.component';
 
 
 export const routes: Routes = [
@@ -18,11 +20,17 @@ export const routes: Routes = [
   },
   {
     path: 'riders/:id',
-    component: RiderDetailsComponent
+    component: RiderDetailsComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'deliveries',
     loadComponent: () => import('./pages/deliveries/deliveries.page').then( m => m.DeliveriesPage),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'delivery/details',
+    loadComponent: ()=> import('./components/domi-detail/domi-detail.component').then(m =>m.DomiDetailComponent),
     canActivate: [authGuard]
   },
   {
@@ -37,13 +45,20 @@ export const routes: Routes = [
   },
   {
     path: 'payments/riders',
-    component: PaymentsDomiComponent
+    component: PaymentsDomiComponent,
+    canActivate: [authGuard]
 
   },
   {
     path: 'payments/clients',
-    component: PaymentsClientComponent
+    component: PaymentsClientComponent,
+    canActivate: [authGuard]
   },    
+  {
+    path: 'payments/sumary',
+    component: PaymentSumaryComponent,
+    canActivate: [authGuard]
+  }, 
   {
     path: 'register',
     loadComponent: () => import('./auth/register/register.page').then( m => m.RegisterPage)

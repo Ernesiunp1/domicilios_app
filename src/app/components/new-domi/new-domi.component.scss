@@ -1,5 +1,11 @@
+ion-card {
+    padding-top: 1.5rem;
+    box-shadow: 2px 11px 15px 1px rgba(24, 56, 82, 0.411) ;
+    border-radius: 30px;
+}
+
 .card-new-comi{
-    
+    margin-top: 1.5rem;
     display: flex;
     justify-content: center;
     ;
@@ -14,9 +20,9 @@
     align-items: center;
     flex-direction: column;
     padding: 1rem;
-    gap: 1rem;
+    gap: 1rem; 
     // background-color: #f9f9f9;
-    border-radius: 8px;
+    border-radius: 16px;
     // padding-top: 3%;
     
 }

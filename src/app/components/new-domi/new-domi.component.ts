@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, FormGroup, Validators  } from '@angular/forms';
 import { IonicModule, AlertController } from '@ionic/angular'; 
 import { LocacionesEnum } from "../../interfaces/locaciones-enum";
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 
 
@@ -47,6 +48,7 @@ export class NewDomiComponent  implements OnInit {
     private clientService: ClientService,
     private cdr: ChangeDetectorRef, 
     private alertCtrl: AlertController,
+    private http: HttpClient
   ) { }
 
   ngOnInit() {
@@ -69,10 +71,11 @@ export class NewDomiComponent  implements OnInit {
       delivery_total_amount: ['', Validators.required], 
       delivery_address: ["", Validators.required],
       delivery_location: [LocacionesEnum.MEDELLIN, Validators.required],
+      delivery_comment: ["", ],
       state: [`${DeliveryStanding.PENDING}`, Validators.required], 
 
 
-    })
+    }) 
   }
 
   // Método para manejar el envío del formulario
@@ -80,7 +83,7 @@ export class NewDomiComponent  implements OnInit {
     if (this.domicilioForm.valid) {
       console.log('Formulario válido:', this.domicilioForm.value);
       this.formSubmit.emit(this.domicilioForm.value);
-      
+      // this.generateLabel(this.domicilioForm.value);
       // Resetear el formulario después de guardar
       this.domicilioForm.reset();
     } else {
@@ -126,6 +129,8 @@ export class NewDomiComponent  implements OnInit {
         console.error("error", err);}
     })
   }
+
+
 
 
 }

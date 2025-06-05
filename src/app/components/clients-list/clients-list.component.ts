@@ -73,6 +73,7 @@ export class ClientsListComponent implements OnInit {
 
   onGetClientByName(client: any) {
     this.getClientByName.emit(client);
+    
   }
 
 

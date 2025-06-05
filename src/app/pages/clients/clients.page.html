@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary" >
 
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button> <!-- Botón hamburguesa -->
@@ -7,10 +7,8 @@
 
     </ion-buttons>
     @if(!clientList){
-      <ion-back-button slot="end" 
-                     defaultHref="/clients" 
-                     text="Atrás" 
-                     color="primary"
+      <ion-back-button slot="start" 
+                     defaultHref="/clients"                                           
                      (click) = 'statusDefault()'></ion-back-button>
 
     }
@@ -29,12 +27,6 @@
       <ion-title size="large">clients</ion-title>
     </ion-toolbar>
   </ion-header>
-
-
-
-
-
-
 
 
 

@@ -4,12 +4,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ClientsInterface } from '../../interfaces/clients-interface';
 // import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClientService {
-  private apiUrl = 'http://localhost:8000';
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 

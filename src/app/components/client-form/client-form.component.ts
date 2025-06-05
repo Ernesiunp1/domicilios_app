@@ -8,12 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import {
-  IonRouterLink,
-  IonList,
-  IonSelect,
-  IonSelectOption,
-} from '@ionic/angular/standalone';
+import {  IonRouterLink} from '@ionic/angular/standalone';
 import { RouterLink } from '@angular/router';
 import { TypeAccount } from '../../interfaces/clients-interface';
 
@@ -53,6 +48,7 @@ export class ClientFormComponent {
   submitForm() {
     if (this.clientForm.valid) {
       this.formSubmitted.emit(this.clientForm.value);
+      this.clientForm.reset()
     } else {
       this.clientForm.markAllAsTouched();
     }

@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/deliveries"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalles del Domiciliario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>{{ deliveryData.package_name | titlecase }}</ion-card-title>
+    <ion-card-subtitle>Estado: {{ deliveryData.state }}</ion-card-subtitle>
+  </ion-card-header>
+
+  <ion-card-content>
+    <!-- <ion-label> -->
+      <strong>Dirección:</strong> {{ deliveryData.delivery_address }}<br>
+      <strong>Receptor:</strong> {{ deliveryData.receptor_name }} ({{ deliveryData.receptor_number }})<br>
+      <strong>Comentario:</strong> {{ deliveryData.delivery_comment || 'Ninguno' }}<br>
+      <strong>Fecha entrega:</strong> {{ deliveryData.delivery_date || 'Pendiente' }}<br>
+      <strong>Total a entregar:</strong> ${{ deliveryData.delivery_total_amount }}
+    <!-- </ion-label> -->
+  </ion-card-content>
+</ion-card>
+
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>Cliente</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <strong>Nombre:</strong> {{ deliveryData.client.client_name }}<br>
+    <strong>Teléfono:</strong> {{ deliveryData.client.phone }}<br>
+    <strong>Dirección:</strong> {{ deliveryData.client.address }}<br>
+    <strong>Cuenta:</strong> {{ deliveryData.client.account_number }} ({{ deliveryData.client.account_type }})<br>
+    <strong>Banco:</strong> {{ deliveryData.client.bank }}
+  </ion-card-content>
+</ion-card>
+
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>Repartidor</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <strong>Nombre:</strong> {{ deliveryData.rider.name }}<br>
+    <strong>Teléfono:</strong> {{ deliveryData.rider.phone }}<br>
+    <strong>Placa:</strong> {{ deliveryData.rider.plate }}
+  </ion-card-content>
+</ion-card>
+
+<ion-card *ngIf="deliveryData.payments && deliveryData.payments.length">
+  <ion-card-header>
+    <ion-card-title>Pagos</ion-card-title>
+  </ion-card-header>
+  <ion-card-content *ngFor="let pago of deliveryData.payments">
+    <strong>Tipo:</strong> {{ pago.payment_type }}<br>
+    <strong>Monto total:</strong> ${{ pago.total_amount }}<br>
+    <strong>Repartidor:</strong> ${{ pago.rider_amount }}<br>
+    <strong>Cooperativa:</strong> ${{ pago.coop_amount }}<br>
+    <strong>Estado:</strong> {{ pago.settlement_status }}<br>
+    <strong>Referencia:</strong> {{ pago.payment_reference || 'N/A' }}<br>
+    <strong>Comentarios:</strong> {{ pago.comments || 'Ninguno' }}<br>
+    <ion-note color="medium">Actualizado: {{ pago.updated_at | date:'short' }}</ion-note>
+    <hr>
+  </ion-card-content>
+</ion-card>
+</ion-content>

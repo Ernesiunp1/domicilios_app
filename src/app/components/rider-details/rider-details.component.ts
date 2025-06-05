@@ -18,6 +18,7 @@ export class RiderDetailsComponent implements OnInit {
   riderDetails: any = null;
   isLoading = true;
   error: string | null = null;
+  apiUrl = environment.apiUrl
 
   constructor(
     private route: ActivatedRoute,
@@ -32,7 +33,7 @@ export class RiderDetailsComponent implements OnInit {
 
   fetchRiderDetails() {
     this.isLoading = true;
-    this.http.get(`http://localhost:8000/rider/${this.riderId}`)  
+    this.http.get(`${this.apiUrl}/rider/${this.riderId}`)  
     
       .subscribe({
         next: (response: any) => {

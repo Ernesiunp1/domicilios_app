@@ -1,7 +1,9 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>Gestión de Pagos - Domiciliarios</ion-title>
-    <ion-buttons slot="end">
+    
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/payments"></ion-back-button>
+        <ion-title>Gestión de Pagos - Domiciliarios</ion-title>      
       <ion-button (click)="fetchRidersData()">
         <ion-icon name="refresh"></ion-icon>
       </ion-button>
@@ -62,7 +64,7 @@
       </ion-label>
       <ion-badge slot="end" color="primary">{{ rider.total_deliveries }} domicilios</ion-badge>
       <ion-note slot="end" [color]="rider.pending_amount > 0 ? 'danger' : 'success'">
-        ${{ rider.pending_amount.toLocaleString() }}
+        ${{ rider.total_amount.toLocaleString() }}
       </ion-note>
     </ion-item>
   </ion-list>
@@ -85,17 +87,32 @@
               </ion-item>
             </ion-col>
             <ion-col>
-              <ion-item lines="none">
+              <ion-item lines="none" *ngIf="totalTransaccion >= 0">
                 <ion-label>Total Generado</ion-label>
-                <ion-note slot="end">${{ selectedRider.total_amount.toLocaleString() }}</ion-note>
+                <ion-label slot="end" color="success" >${{ totalTransaccion.toLocaleString() }}</ion-label>
               </ion-item>
+
+              <ion-item lines="none" *ngIf="totalTransaccion < 0" >
+                <ion-label>Total Generado</ion-label>
+                <ion-label slot="end" color="danger" >${{ totalTransaccion.toLocaleString() }}</ion-label>
+              </ion-item>
+
+
             </ion-col>
             <ion-col>
               <ion-item lines="none">
                 <ion-label>Pendiente</ion-label>
-                <ion-note slot="end" [color]="selectedRider.pending_amount > 0 ? 'danger' : 'success'">
-                  ${{ selectedRider.pending_amount.toLocaleString() }}
-                </ion-note>
+                <ion-label slot="end" [color]="selectedRider.pending_amount > 0 ? 'danger' : 'success'">
+                  ${{ totalToEnterprise.toLocaleString() }}
+                </ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item lines="none">
+                <ion-label>Rider</ion-label>
+                <ion-label slot="end" [color]="selectedRider.pending_amount > 0 ? 'danger' : 'success'">
+                  ${{ totalToRider.toLocaleString() }}
+                </ion-label>
               </ion-item>
             </ion-col>
           </ion-row>
@@ -104,28 +121,41 @@
         <ion-list>
           <ion-item-sliding *ngFor="let payment of paymentDetails">
             <ion-item>
-              <ion-checkbox slot="start" 
-                           [(ngModel)]="payment.isSelected"
-                           [disabled]="payment.settlement_status !== 'PENDING'">
+              <ion-checkbox 
+                slot="start" 
+                [(ngModel)]="payment.isSelected" 
+                [disabled]="payment.settlement_status === 'SETTLED'">
               </ion-checkbox>
+              
               <ion-label>
                 <h3>Domicilio #{{ payment.delivery_id }}</h3>
                 <p>{{ payment.date | date:'dd/MM/yyyy' }}</p>
                 <p>Método: {{ payment.payment_type }}</p>
               </ion-label>
-              <ion-badge slot="end" 
-                       [color]="payment.settlement_status === 'PENDING' ? 'warning' : 'success'">
-                {{ payment.settlement_status === 'PENDING' ? 'Pendiente' : 'Liquidado' }}
+              <ion-badge 
+                slot="end" 
+                [color]="getBadgeColor(payment.settlement_status)">
+                {{ getStatusLabel(payment.settlement_status) }}
               </ion-badge>
-              <ion-note slot="end">
+              
+              <!-- <ion-note slot="end">
+                <div>{{ (payment.settlement_status === 'PENDING' ? payment.pending_amount : payment.rider_amount).toLocaleString() }}</div>
+              </ion-note>  -->
+
+              <ion-label *ngIf="payment.settlement_status !== 'PENDING'" slot="end" color="danger">
                 <div>${{ payment.rider_amount.toLocaleString() }}</div>
-              </ion-note>
+              </ion-label>
+              
+              <ion-label *ngIf="payment.settlement_status === 'PENDING'" slot="end" color="success" >
+                <div>${{ payment.pending_amount.toLocaleString() }}</div>
+              </ion-label>
+
             </ion-item>
             <ion-item-options side="end">
               <ion-item-option 
                 color="primary" 
                 (click)="handleSettlePayment(payment)" 
-                [disabled]="payment.settlement_status !== 'PENDING'">
+                [disabled]="payment.settlement_status === 'SETTLED'">
                 Liquidar
               </ion-item-option>
             </ion-item-options>
@@ -135,8 +165,9 @@
     </ion-card>
     
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-      <ion-fab-button (click)="openSettlementModal()" 
-                     [disabled]="!hasPendingPayments() || !hasSelectedPayments()">
+      <ion-fab-button 
+        (click)="openSettlementModal()" 
+        [disabled]="!hasSelectedPayments()">
         <ion-icon name="cash"></ion-icon>
       </ion-fab-button>
     </ion-fab>

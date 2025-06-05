@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {AlertController ,IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonMenuButton, 
-  IonButton, IonIcon, IonBackButton, ToastController } from '@ionic/angular/standalone';
+  IonButton, IonIcon, IonBackButton, ToastController, IonCard } from '@ionic/angular/standalone';
 //import { MenuComponent } from 'src/app/components/menu/menu.component';
 import { ClientsListComponent } from "../../components/clients-list/clients-list.component";
 import { ClientService } from './client.service';
@@ -19,7 +19,7 @@ import { ClientsInterface } from 'src/app/interfaces/clients-interface';
   templateUrl: './clients.page.html',
   styleUrls: ['./clients.page.scss'],
   standalone: true,
-  imports: [IonBackButton, IonIcon, IonButton, IonButtons, IonContent, 
+  imports: [IonCard, IonBackButton, IonIcon, IonButton, IonButtons, IonContent, 
     IonHeader, IonTitle, EditClientFormComponent,
     IonToolbar, CommonModule, FormsModule,  ClientDetailComponent,
     IonButtons, IonMenuButton, ClientsListComponent, ClientFormComponent]
@@ -146,15 +146,21 @@ export class ClientsPage implements OnInit {
 
     console.log("cliente desde el page" , clientData);
     
-    // return this.clientService.createClient(clientData).subscribe({
-    //   next: (response) => {
-    //     console.log('Cliente creado con éxito', response);
-    //     this.clientList = true;        
-    //   },
-    //   error: (error) => {
-    //     console.error('Error al crear el cliente', error);
-    //   }
-    // })
+    return this.clientService.createClient(clientData).subscribe({
+      next: () => {
+        console.log('Cliente registrado con éxito');
+        this.presentToast('Cliente registrado con éxito');
+        this.presentAlert('Cliente creado con éxito')
+              
+      
+      },
+
+      error: (err) => {
+        this.presentAlert(`Error al registrar cliente. ${err.error.detail}.`);    
+        this.presentToast(`Error al registrar cliente. ${err.error.detail}.`, 'danger');    
+        console.error('Error al registrar cliente:', err)
+      }
+    })
   }
 
 
