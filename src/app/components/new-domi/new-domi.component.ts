@@ -1,11 +1,9 @@
 import { Component, OnInit, Output, EventEmitter, ChangeDetectorRef,  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, FormGroup, Validators  } from '@angular/forms';
-import { IonicModule, AlertController } from '@ionic/angular'; 
+import { AlertController } from '@ionic/angular'; 
 import { LocacionesEnum } from "../../interfaces/locaciones-enum";
 import { HttpClient, HttpParams } from '@angular/common/http';
-
-
 
 
 import { Delivery, DeliveryStanding } from "../../interfaces/deliveries"
@@ -13,12 +11,34 @@ import { DeliveryService } from 'src/app/pages/deliveries/delivery.service';
 import { ClientService } from 'src/app/pages/clients/client.service';
 import { RidersInterface } from "../../interfaces/riders-interface";
 import { ClientsInterface } from "../../interfaces/clients-interface";
+import { 
+  IonGrid,
+  IonRow, 
+  IonCol,
+  IonItem,
+  IonLabel,
+  IonSelect,
+  IonSelectOption,
+  IonSpinner,
+  IonNote, IonCard , IonList, IonCardTitle, IonButton, IonIcon} from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-new-domi',
   templateUrl: './new-domi.component.html',
   styleUrls: ['./new-domi.component.scss'],
-  imports: [CommonModule, ReactiveFormsModule, IonicModule ],
+  standalone: true,  // ← Asegúrate que esté esto
+  imports: [IonCard, 
+    CommonModule, 
+    ReactiveFormsModule,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonItem,
+    IonLabel,
+    IonSelect,        // ← Estos son los importantes
+    IonSelectOption,  // ← Para que funcionen en producción
+    IonSpinner, IonButton, IonIcon, IonNote, IonList, IonCardTitle
+  ],
 })
 
 
