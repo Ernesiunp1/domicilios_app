@@ -119,7 +119,26 @@ export class PaymentsService {
   }
 
   // Método para obtener pagos de clientes
-  async getClientPayments(
+  // async getClientPayments(
+  //   filterStatus?: string
+  // ): Promise<ClientPaymentDetail[]> {
+  //   try {
+  //     let url = `${this.apiUrl}/payments/clients-payments`;
+  //     if (filterStatus && filterStatus !== 'ALL') {
+  //       url += `?status=${filterStatus}`;
+  //     }
+
+  //     const response = await this.http
+  //       .get<ClientPaymentDetail[]>(url)
+  //       .toPromise();
+  //     return response ?? [];
+  //   } catch (error) {
+  //     console.error('Error al obtener pagos de clientes:', error);
+  //     throw error;
+  //   }
+  // }
+
+    async getClientPayments(
     filterStatus?: string
   ): Promise<ClientPaymentDetail[]> {
     try {
@@ -128,9 +147,9 @@ export class PaymentsService {
         url += `?status=${filterStatus}`;
       }
 
-      const response = await this.http
-        .get<ClientPaymentDetail[]>(url)
-        .toPromise();
+      const response = await firstValueFrom(
+        this.http.get<ClientPaymentDetail[]>(url)
+      );
       return response ?? [];
     } catch (error) {
       console.error('Error al obtener pagos de clientes:', error);

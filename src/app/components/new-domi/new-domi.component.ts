@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, FormGroup, Validators  } from '@angular/forms';
 import { AlertController } from '@ionic/angular'; 
 import { LocacionesEnum } from "../../interfaces/locaciones-enum";
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 
 
 import { Delivery, DeliveryStanding } from "../../interfaces/deliveries"
@@ -13,21 +13,21 @@ import { RidersInterface } from "../../interfaces/riders-interface";
 import { ClientsInterface } from "../../interfaces/clients-interface";
 import { 
   IonGrid,
-  IonRow, 
+  IonRow,  
   IonCol,
   IonItem,
   IonLabel,
   IonSelect,
   IonSelectOption,
   IonSpinner,
-  IonNote, IonCard , IonList, IonCardTitle, IonButton, IonIcon} from '@ionic/angular/standalone';
+  IonNote, IonCard , IonList, IonCardTitle, IonButton, IonIcon, IonInput } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-new-domi',
   templateUrl: './new-domi.component.html',
   styleUrls: ['./new-domi.component.scss'],
   standalone: true,  // ← Asegúrate que esté esto
-  imports: [IonCard, 
+  imports: [IonInput, IonCard, 
     CommonModule, 
     ReactiveFormsModule,
     IonGrid,
@@ -88,7 +88,8 @@ export class NewDomiComponent  implements OnInit {
       receptor_name: ['', Validators.required], 
       receptor_number: ['', Validators.required], 
       delivery_enterprise_amount: ['', Validators.required], 
-      delivery_total_amount: ['', Validators.required], 
+      delivery_total_amount: ['', Validators.required],
+      monto_domicilio: ['', Validators.required],  
       delivery_address: ["", Validators.required],
       delivery_location: [LocacionesEnum.MEDELLIN, Validators.required],
       delivery_comment: ["", ],

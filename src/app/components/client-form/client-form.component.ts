@@ -7,21 +7,23 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
-import {  IonRouterLink} from '@ionic/angular/standalone';
+
 import { RouterLink } from '@angular/router';
 import { TypeAccount } from '../../interfaces/clients-interface';
+
+
+import {  IonRouterLink, IonCard, IonCardSubtitle, IonIcon, IonNote,
+  IonItem, IonLabel, IonInput, IonButton, IonSelect, IonSelectOption
+} from '@ionic/angular/standalone';
+
 
 @Component({
   selector: 'app-client-form',
   standalone: true,
   imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    IonicModule,
-    IonRouterLink,
-    RouterLink,
+    CommonModule,  FormsModule,  ReactiveFormsModule, IonRouterLink,
+    RouterLink, IonCard, IonCardSubtitle, IonIcon, IonNote, IonItem, IonLabel, 
+    IonInput, IonButton, IonSelect, IonSelectOption
   ],
   templateUrl: './client-form.component.html',
   styleUrls: ['./client-form.component.scss'],

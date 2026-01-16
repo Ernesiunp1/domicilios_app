@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
-import {  ModalController } from '@ionic/angular/standalone'
+import {  ModalController, IonCard, IonToolbar, IonTitle, IonContent, 
+  IonItem, IonLabel, IonSelect, IonSelectOption, IonHeader, IonButton, IonInput
+ } from '@ionic/angular/standalone'
 
 
 interface ClientUpdateModel {
@@ -19,7 +20,10 @@ interface ClientUpdateModel {
   selector: 'app-edit-client-form',
   templateUrl: './edit-client-form.component.html',
   styleUrls: ['./edit-client-form.component.scss'],
-  imports: [CommonModule, FormsModule, IonicModule]
+  standalone: true,
+  imports: [CommonModule, FormsModule, IonCard, IonToolbar, IonTitle, IonContent, 
+  IonItem, IonLabel, IonSelect, IonSelectOption, IonHeader, IonButton, IonInput],
+  providers: [ModalController, ]
 })
 
 export class EditClientFormComponent  implements OnInit {

@@ -1,15 +1,27 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgFor, NgIf} from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { IonicModule } from '@ionic/angular';
+
 import { DatePipe } from '@angular/common';
-import { ModalController, ToastController, LoadingController } from '@ionic/angular';
+// import { ModalController, ToastController, LoadingController } from '@ionic/angular';
 
 import { SettlementModalComponent } from '../settlement-modal/settlement-modal.component';
 import { PaymentsService } from 'src/app/pages/payments/payments.service';
 
 import { environment } from "src/environments/environment";
+
+import { IonButton, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle,
+  IonSegment, IonLabel, IonRow, IonCol, IonDatetimeButton, IonModal, IonDatetime, IonContent,
+  IonSegmentButton, IonItem, IonListHeader, IonBadge, IonNote, IonAvatar, IonIcon, IonList,
+  IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonGrid, 
+  IonItemSliding, IonItemOption, IonItemOptions, IonFab, IonFabButton, IonRefresher, 
+  IonRefresherContent, IonCheckbox, ModalController, 
+  ToastController, 
+  LoadingController 
+} from "@ionic/angular/standalone"; 
+
+
 
 interface RiderPayment {
   rider_id: number;
@@ -35,8 +47,19 @@ interface PaymentDetail {
   templateUrl: './payment-domi.component.html',
   styleUrls: ['./payment-domi.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule],
-  providers: [DatePipe],  
+  imports: [// Angular Common
+    CommonModule, NgFor, NgIf, FormsModule,    
+    // Ionic Components
+    IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonButton,
+    IonSegment, IonSegmentButton, IonLabel, IonRow, IonCol, 
+    IonDatetimeButton, IonModal, IonDatetime, IonItem,
+    IonContent, IonList, IonListHeader, IonBadge, IonNote, 
+    IonAvatar, IonIcon, IonCard, IonCardHeader, IonCardSubtitle, 
+    IonCardTitle, IonCardContent, IonGrid, IonItemSliding, 
+    IonItemOption, IonItemOptions, IonFab, IonFabButton, 
+    IonRefresher, IonRefresherContent, IonCheckbox],
+
+  providers: [DatePipe, ModalController, ToastController, LoadingController],  
   
 })
 
@@ -56,6 +79,7 @@ export class PaymentsDomiComponent implements OnInit {
   loading = false;
   detailsLoading = false;
   filterStatus: string[] = ['PENDING', 'TRANSFER_TO_OFFICE', 'TRANFERRED_TO_CLIENT' ];
+  // filterStatus: string = 'PENDING'
   dateRange: string | undefined = undefined;
   
   constructor(
@@ -68,6 +92,11 @@ export class PaymentsDomiComponent implements OnInit {
   ) {}
   
   ngOnInit() {
+
+    // this.fetchRidersData(); 
+  }
+
+  ionViewWillEnter() {
     this.fetchRidersData();
   }
   
@@ -81,6 +110,8 @@ export class PaymentsDomiComponent implements OnInit {
     await loading.present();
   
     try {
+      console.log("Entrando a fetchRidersData");
+      
       // Actualiza los estados para incluir todos excepto SETTLED
       this.ridersData = await this.paymentService.getRidesDataPayments(
         ['PENDING', 'TRANSFER_TO_OFFICE', 'TRANFERRED_TO_CLIENT'], 
@@ -106,9 +137,64 @@ export class PaymentsDomiComponent implements OnInit {
     }
   }
 
+//   async fetchRidersData() {
+//     console.log('fetchRidersData - INICIO');
+//   const loading = await this.loadingCtrl.create({
+//     message: 'Cargando domiciliarios...',
+//     spinner: 'circles'
+//   });
+//   await loading.present();
+
+//   try {
+//     // console.log("fetchRidersData - filterStatus:", this.filterStatus);
+//     // console.log("fetchRidersData - dateRange:", this.dateRange);
+//     // console.log("Entrando a fetchRidersData");
+    
+//     // Determinar qué estados usar basado en filterStatus
+//     let statusesToUse: string[];
+    
+//     if (this.filterStatus === 'ALL') {
+//       statusesToUse = ['PENDING', 'TRANSFER_TO_OFFICE', 'TRANFERRED_TO_CLIENT'];
+//     } else {
+//       statusesToUse = [this.filterStatus];
+//     }
+
+//     console.log("fetchRidersData - statusesToUse:", statusesToUse);
+//     console.log("fetchRidersData - Llamando paymentService.getRidesDataPayments...");
+    
+    
+//     this.ridersData = await this.paymentService.getRidesDataPayments(
+//       statusesToUse, 
+//       this.dateRange
+//     );
+    
+//     console.log("esta es la data de los riders", this.ridersData);
+//     console.log("fetchRidersData - ridersData recibida:", this.ridersData);
+    
+//     if (this.selectedRider) {
+//       const stillExists = this.ridersData!.some(r => r.rider_id === this.selectedRider?.rider_id);
+//       if (!stillExists) {
+//         this.selectedRider = null;
+//         this.paymentDetails = [];
+//       } else {
+//         this.selectedRider = this.ridersData!.find(r => r.rider_id === this.selectedRider?.rider_id) || null;
+//         await this.fetchRiderDetails(this.selectedRider!.rider_id);
+//       }
+//     }
+//   } catch (error) {
+//     console.error('Error al cargar datos de domiciliarios:', error);
+//     this.presentToast('No se pudieron cargar los datos de domiciliarios', 'danger');
+//   } finally {
+//     console.log('fetchRidersData - FINAL');
+//     loading.dismiss();
+//   }
+// }
+
 
 
   // Cargar detalles de pagos de un domiciliario específico
+  
+  
   async fetchRiderDetails(riderId: number) {
     this.detailsLoading = true;
   
@@ -144,8 +230,48 @@ export class PaymentsDomiComponent implements OnInit {
       this.detailsLoading = false;
     }
   }
+
+//   async fetchRiderDetails(riderId: number) {
+//   this.detailsLoading = true;
+
+//   try {
+//     let url = `${this.apiUrl}/payments/riders-payments/${riderId}`;
+//     const queryParams = new URLSearchParams();
+
+//     // Usar la misma lógica que en fetchRidersData
+//     if (this.filterStatus === 'ALL') {
+//       const statuses = ['PENDING', 'TRANSFER_TO_OFFICE', 'TRANFERRED_TO_CLIENT'];
+//       statuses.forEach(status => queryParams.append('settlement_status', status));
+//     } else {
+//       queryParams.set('settlement_status', this.filterStatus);
+//     }
+
+//     if (queryParams.toString()) {
+//       url += `?${queryParams.toString()}`;
+//     }
+
+//     const response = await this.http.get<any[]>(url).toPromise();
+//     console.log("RESPUESTA DE DETALLE", response);
+//     this.consiliacionMontos(response);
+    
+//     this.paymentDetails = (response ?? [])
+//       .filter(payment => payment.settlement_status !== 'SETTLED')
+//       .map(payment => ({
+//         ...payment,
+//         isSelected: false
+//       }));
+//   } catch (error) {
+//     console.error('Error al obtener detalles de pago:', error);
+//     this.paymentDetails = [];
+//   } finally {
+//     this.detailsLoading = false;
+//   }
+// }
   
-  async consiliacionMontos(deliveries: any ){
+  
+
+
+async consiliacionMontos(deliveries: any ){
     console.log('ESTA ES LA LISTA DE CONSILIACION', deliveries);
       let totalToRider = 0
       let totalToRecive = 0
@@ -239,7 +365,7 @@ export class PaymentsDomiComponent implements OnInit {
     
     if (role === 'confirm' && data) {
       await this.settlePayments(paymentIds, data.comments);
-    }
+    } 
   }
   
   // Liquidar pagos seleccionados
@@ -290,16 +416,21 @@ export class PaymentsDomiComponent implements OnInit {
   //   this.fetchRidersData();
   // }
   
+  // segmentChanged(event: any) {
+  //   this.filterStatus = event.detail.value;
+    
+  //   // Si es ALL, deberíamos enviar todos los estados excepto SETTLED
+  //   // if (this.filterStatus === 'ALL') {
+  //   //   this.filterStatus = ['PENDING', 'TRANSFER_TO_OFFICE', 'TRANFERRED_TO_CLIENT'];
+  //   // }
+    
+  //   this.fetchRidersData();
+  // }
+
   segmentChanged(event: any) {
-    this.filterStatus = event.detail.value;
-    
-    // Si es ALL, deberíamos enviar todos los estados excepto SETTLED
-    // if (this.filterStatus === 'ALL') {
-    //   this.filterStatus = ['PENDING', 'TRANSFER_TO_OFFICE', 'TRANFERRED_TO_CLIENT'];
-    // }
-    
-    this.fetchRidersData();
-  }
+  this.filterStatus = event.detail.value;
+  this.fetchRidersData();
+}
 
 
   // Cambio en el rango de fechas

@@ -1,20 +1,20 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonRow ,IonHeader, IonTitle, IonToolbar, IonMenuButton, 
-  IonButtons, IonButton, IonBackButton, IonCol, IonGrid, IonItem, IonSelect, IonSelectOption, IonAlert, IonLabel } from '@ionic/angular/standalone';
+import { IonContent,IonHeader, IonTitle, IonToolbar, IonMenuButton, 
+  IonButtons, IonButton, IonBackButton } from '@ionic/angular/standalone';
 import { DeliveriesComponent } from 'src/app/components/delivery/delivery.component';
 import { NewDomiComponent } from "../../components/new-domi/new-domi.component";
 import { DeliveryService } from './delivery.service';
 import { AlertController, ToastController } from "@ionic/angular";
 import { navigate } from 'ionicons/icons';
 import { Router, RouterLink } from '@angular/router';
-import { SharedService } from 'src/app/components/shared/shared.service';
-import { Delivery, DeliveryStanding } from 'src/app/interfaces/deliveries';
+// import { SharedService } from 'src/app/components/shared/shared.service';
+// import { Delivery, DeliveryStanding } from 'src/app/interfaces/deliveries';
 import { SettlementStatus } from 'src/app/interfaces/payments-interfaces';
 import { PaymentsService } from '../payments/payments.service';
 import { AlertSettlementStatus } from "src/app/components/shared/alert.settlementStatus";
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from "src/environments/environment";
 
 
@@ -24,8 +24,9 @@ import { environment } from "src/environments/environment";
   templateUrl: './deliveries.page.html',
   styleUrls: ['./deliveries.page.scss'],
   standalone: true,
-  imports: [IonLabel, IonAlert, IonItem, IonBackButton, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, 
-     IonMenuButton, IonButtons, NewDomiComponent, DeliveriesComponent, IonSelect, IonSelectOption]
+  imports: [IonBackButton, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, 
+    FormsModule, 
+     IonMenuButton, IonButtons, NewDomiComponent, DeliveriesComponent]
 })
 
 
@@ -106,7 +107,7 @@ export class DeliveriesPage implements OnInit {
         this.presentToast("Domicilio creado correctamente")
         this.originalState = true;
 
-        this.generateLabel(formData, resp.id)
+        // this.generateLabel(formData, resp.id)
       },
       error: (err) => {
         console.error("error", err);

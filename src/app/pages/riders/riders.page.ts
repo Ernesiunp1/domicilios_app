@@ -4,14 +4,14 @@ import { FormsModule } from '@angular/forms';
 import {IonList, IonContent, IonHeader, IonTitle, IonToolbar, IonMenuButton, IonButtons, IonCard, IonLabel, IonItem, IonButton, IonCardHeader, IonCardContent, IonCardTitle } from '@ionic/angular/standalone';
 import { RidersService } from './riders.service';
 import { Router, RouterLink } from '@angular/router';
-import { RiderDetailsComponent } from 'src/app/components/rider-details/rider-details.component';
+// import { RiderDetailsComponent } from 'src/app/components/rider-details/rider-details.component';
 
 @Component({
   selector: 'app-riders',
   templateUrl: './riders.page.html',
   styleUrls: ['./riders.page.scss'],
   standalone: true,
-  imports: [RiderDetailsComponent ,IonList, IonCardTitle, IonCardContent, IonCardHeader, IonButton, IonItem, IonLabel, IonCard, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, 
+  imports: [IonList, IonCardTitle, IonCardContent, IonCardHeader, IonButton, IonItem, IonLabel, IonCard, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, 
     FormsModule, IonMenuButton, IonButtons, IonCard, IonLabel, IonItem, IonButton, IonCardHeader, 
     IonCardContent, RouterLink]
 })

@@ -1,7 +1,11 @@
 ion-card {
     padding-top: 1.5rem;
-    box-shadow: 2px 11px 15px 1px rgba(24, 56, 82, 0.411) ;
+    box-shadow: 2px 11px 7px 1px rgba(24, 56, 82, 0.411) ;
     border-radius: 30px;
+}
+
+ion-card-title {
+    margin-top: 20px;
 }
 
 .card-new-comi{
@@ -13,7 +17,7 @@ ion-card {
 
 .card-domi{
     margin: 1rem;
-    width: 70%;
+    width: 90%;
     // height: 95%;
     display: flex;
     justify-content: center;
@@ -26,6 +30,13 @@ ion-card {
     // padding-top: 3%;
     
 }
+@media (max-witdh: 400px) {
+    
+    .card-domi {
+        width: none;
+        padding: 0.5rem;
+    }
+}
 
 
 .edit-client-form{
@@ -36,4 +47,10 @@ ion-card {
     padding: 1rem;
     // background-color: #f9f9f9;
     border-radius: 8px;
+}
+
+
+.ion-padding-top{
+    padding: 10px;
+    gap: 1rem;
 }

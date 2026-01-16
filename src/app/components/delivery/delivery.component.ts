@@ -1,22 +1,26 @@
-import { Component, OnInit, ChangeDetectorRef, EventEmitter, output, Output, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, EventEmitter, Output, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
-import { Delivery, Item, DeliveryStanding, PaymentStatus, PaymentType,  } from '../../interfaces/deliveries';
+import {  Item, DeliveryStanding, PaymentStatus, PaymentType,  } from '../../interfaces/deliveries';
 import { DeliveryService } from '../../pages/deliveries/delivery.service'
 import { RidersInterface } from 'src/app/interfaces/riders-interface';
-import { Router, RouterLink } from '@angular/router';
+import { Router} from '@angular/router';
 import { DeliveryStateService } from '../domi-detail/delivery-state.service';
-import { SettlementStatus } from 'src/app/interfaces/payments-interfaces';
+// import { SettlementStatus } from 'src/app/interfaces/payments-interfaces';
 import { PaymentsService } from 'src/app/pages/payments/payments.service';
 
-
+import {  IonCard, IonCardSubtitle, IonIcon,
+  IonItem, IonLabel, IonButton, IonSelect, IonSelectOption, IonContent, IonGrid, IonRow, 
+  IonCol, IonCardHeader, IonCardTitle, IonSpinner, IonCardContent, IonBadge, IonButtons, IonText
+} from '@ionic/angular/standalone';
 
 
 @Component({
   selector: 'app-deliveries-component',
   standalone: true,
-  imports: [CommonModule, IonicModule, FormsModule],
+  imports: [CommonModule, FormsModule, IonCard, IonCardSubtitle, IonIcon,
+  IonItem, IonLabel, IonButton, IonSelect, IonSelectOption, IonContent, IonGrid, IonRow, IonCol,
+IonCardHeader, IonCardTitle, IonSpinner, IonCardContent, IonBadge, IonButtons, IonText],
   templateUrl: './delivery.component.html',
   styleUrls: ['./delivery.component.scss']
 })
