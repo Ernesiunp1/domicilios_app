@@ -1,18 +1,16 @@
 <ion-header>
   <ion-toolbar color="primary">
-
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button> <!-- Botón hamburguesa -->
-      
-
-    </ion-buttons>
+     </ion-buttons>
     @if(!originalState){
 
       <ion-header>
         <ion-toolbar color="primary">
-          <ion-buttons slot="start">
+          <ion-buttons slot="end">
             <ion-back-button defaultHref="/deliveries"
-            (click) = 'statusDefault()'></ion-back-button>
+                              (click) = 'statusDefault()'
+                              text="Atras"></ion-back-button>
           </ion-buttons>
           <ion-title>Detalles del Domiciliario</ion-title>
         </ion-toolbar>
@@ -57,6 +55,10 @@
       
           <ion-button   class="clientbtn"  color="success"  (click) = "crearDomicilio()" >
             Crear domicilio
+          </ion-button> 
+          
+          <ion-button class="clientbtn" color="danger" (click)="onArchiveDelivered()">
+            Eliminar entregados
           </ion-button> 
    
     

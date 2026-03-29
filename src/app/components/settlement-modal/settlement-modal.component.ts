@@ -1,13 +1,17 @@
-// settlement-modal.component.ts
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
+import { IonToolbar, IonHeader, IonItem, IonButtons, IonButton, IonIcon, IonContent, IonLabel
+  , IonFooter, IonRow, IonCol, IonTitle, IonTextarea,
+ } from "@ionic/angular/standalone";
 
 @Component({
   selector: 'app-settlement-modal',
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule],
+  imports: [IonToolbar, CommonModule, FormsModule, IonHeader, IonItem, IonButtons, IonButton, 
+    IonIcon, IonContent, IonLabel, IonFooter, IonRow, IonCol, IonTitle, IonTextarea],
+  providers: [ModalController],
   templateUrl: './settlement-modal.component.html',
   styleUrls: ['./settlement-modal.component.scss'],})
 

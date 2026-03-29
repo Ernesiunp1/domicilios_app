@@ -1,17 +1,23 @@
 import { Component, OnInit, ChangeDetectorRef  } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaymentsService } from '../../pages/payments/payments.service';
 import { ClientPaymentDetail } from '../../interfaces/payments-clients';
-import { AlertController, ToastController } from '@ionic/angular/standalone';
+import { AlertController, ToastController, IonHeader, IonToolbar, IonButtons, IonBackButton,
+IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonItem, IonLabel, 
+IonButton, IonSelect, IonSelectOption, IonSpinner, IonGrid, IonRow, IonCol, IonBadge, IonCheckbox
+ } from '@ionic/angular/standalone';
+// import { IonicModule } from '@ionic/angular'
 
 @Component({
   selector: 'app-payments-client',
   templateUrl: './payment-client.component.html',
   styleUrls: ['./payment-client.component.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, FormsModule]
+  imports: [FormsModule , CommonModule, FormsModule, IonHeader, IonToolbar, IonButtons, IonBackButton,
+IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonItem, IonLabel, IonCheckbox,
+IonButton, IonSelect, IonSelectOption, IonSpinner, IonGrid, IonRow, IonCol, IonBadge, ReactiveFormsModule,
+]
 })
 export class PaymentsClientComponent implements OnInit {
   clientPaymentDetails: ClientPaymentDetail[] = [];
@@ -156,15 +162,23 @@ export class PaymentsClientComponent implements OnInit {
   // }
 
   // selector para el estado de seleccion de algun pago
-  updateHasSelectedPayments() {
-    this.hasSelectedPayments = this.clientPaymentDetails.some(p => p.isSelected);
-  }
+  
+  // updateHasSelectedPayments() {
+  //   // this.hasSelectedPayments = this.clientPaymentDetails.some(p => p.isSelected);
+
+  //   this.hasSelectedPayments = this.clientPaymentDetails
+  //   .filter(p => p.client_settlement_status === 'PENDING')
+  //   .some(p => p.isSelected);
+  
+  // console.log('Has selected payments:', this.hasSelectedPayments); // 
+  // }
 
   
   // método para enviar los pagos seleccionados
   async sendSelectedPayments() {
     const selectedPayments = this.clientPaymentDetails.filter(p => p.isSelected);
-    console.log('Pagos seleccionados:', selectedPayments);
+    
+    console.log('Pagos seleccionados...:', selectedPayments);
     
     const clientIds = selectedPayments.map(p => p.clientId || '').filter(id => id);
     console.log('IDs de clientes seleccionados:', clientIds);
@@ -195,7 +209,86 @@ export class PaymentsClientComponent implements OnInit {
     // Aquí puedes hacer lo que necesites: enviarlos a un backend, abrir un modal, etc.
   }
 
+  trackByPaymentId(index: number, payment: any): any {
+        
+  return payment.id; // o cualquier propiedad única del pago
+  }
+
+
+  // ////////////////////////////////////////////////////////////////////////
+
+  // Método que se ejecuta cuando cambia la selección de un checkbox
+onPaymentSelectionChange(payment: any, event: any) {
+  // Actualizar el estado de selección
+  payment.isSelected = event.detail.checked;
   
+  // Mostrar información detallada en consola
+  console.log('=== CAMBIO DE SELECCIÓN ===');
+  console.log('Estado del checkbox:', event.detail.checked);
+  console.log('Pago seleccionado/deseleccionado:', {
+    id: payment.id,
+    clientId: payment.clientId,
+    clientName: payment.clientName,
+    amount: payment.amount,
+    date: payment.date,
+    status: payment.client_settlement_status,
+    isSelected: payment.isSelected,
+    payment_ids_list: payment.payment_ids_list
+  });
+  
+  // Si fue seleccionado, mostrar toda la información del pago
+  if (event.detail.checked) {
+    console.log('✅ PAGO SELECCIONADO - Información completa:');
+    console.table([payment]); // Muestra la información en formato tabla
+    
+    // Si quieres ver propiedades específicas:
+    console.log('Detalles del domicilio/pago:', {
+      'ID del Pago': payment.id,
+      'Cliente': payment.clientName,
+      'ID del Cliente': payment.clientId,
+      'Monto': payment.amount,
+      'Fecha': payment.date,
+      'Lista de IDs de pago': payment.payment_ids_list,
+      'Estado': payment.client_settlement_status,
+      'Todas las propiedades': payment
+    });
+  } else {
+    console.log('❌ PAGO DESELECCIONADO:', payment.id, '-', payment.clientName);
+  }
+  
+  // Actualizar el estado general
+  this.updateHasSelectedPayments();
+}
+
+updateHasSelectedPayments() {
+  this.hasSelectedPayments = this.clientPaymentDetails
+    .filter(p => p.client_settlement_status === 'PENDING')
+    .some(p => p.isSelected);
+  
+  console.log('¿Hay pagos seleccionados?:', this.hasSelectedPayments);
+  
+  // Mostrar todos los pagos actualmente seleccionados
+  const selectedPayments = this.clientPaymentDetails.filter(p => p.isSelected);
+  console.log('TOTAL DE PAGOS SELECCIONADOS:', selectedPayments.length);
+  
+  if (selectedPayments.length > 0) {
+    console.log('LISTA DE PAGOS SELECCIONADOS:');
+    selectedPayments.forEach((payment, index) => {
+      console.log(`${index + 1}. ID: ${payment.id} - Cliente: ${payment.clientName} - Monto: ${payment.amount}`);
+    });
+    
+    // También en formato tabla para mejor visualización
+    console.table(selectedPayments.map(p => ({
+      ID: p.id,
+      Cliente: p.clientName,
+      Monto: p.amount,
+      Fecha: p.date,
+      'IDs de Pago': p.payment_ids_list?.join(', ') || 'N/A'
+    })));
+  }
+  
+  console.log('==========================================');
+}
 
 
 

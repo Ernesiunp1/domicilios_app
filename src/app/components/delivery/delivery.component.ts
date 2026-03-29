@@ -1,22 +1,27 @@
-import { Component, OnInit, ChangeDetectorRef, EventEmitter, output, Output, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, EventEmitter, Output, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
-import { Delivery, Item, DeliveryStanding, PaymentStatus, PaymentType,  } from '../../interfaces/deliveries';
+import {  Item, DeliveryStanding, PaymentStatus, PaymentType,  } from '../../interfaces/deliveries';
 import { DeliveryService } from '../../pages/deliveries/delivery.service'
 import { RidersInterface } from 'src/app/interfaces/riders-interface';
-import { Router, RouterLink } from '@angular/router';
+import { Router} from '@angular/router';
 import { DeliveryStateService } from '../domi-detail/delivery-state.service';
-import { SettlementStatus } from 'src/app/interfaces/payments-interfaces';
+// import { SettlementStatus } from 'src/app/interfaces/payments-interfaces';
 import { PaymentsService } from 'src/app/pages/payments/payments.service';
 
+import {  IonCard, IonCardSubtitle, IonIcon,
+  IonItem, IonLabel, IonButton, IonSelect, IonSelectOption, IonContent, IonGrid, IonRow, 
+  IonCol, IonCardHeader, IonCardTitle, IonSpinner, IonCardContent, IonBadge, IonButtons, IonText
+} from '@ionic/angular/standalone';
 
-
+import {Alerts} from '../shared/alert.confirmarEntrega';
 
 @Component({
   selector: 'app-deliveries-component',
   standalone: true,
-  imports: [CommonModule, IonicModule, FormsModule],
+  imports: [CommonModule, FormsModule, IonCard, IonCardSubtitle, IonIcon,
+  IonItem, IonLabel, IonButton, IonSelect, IonSelectOption, IonContent, IonGrid, IonRow, IonCol,
+IonCardHeader, IonCardTitle, IonSpinner, IonCardContent, IonBadge, IonButtons, IonText],
   templateUrl: './delivery.component.html',
   styleUrls: ['./delivery.component.scss']
 })
@@ -40,7 +45,7 @@ export class DeliveriesComponent implements OnInit {
       this.totalPages = value.pages || Math.ceil(value.total / this.pageSize);
       this.currentPage = value.page || 1;
       this.pageSize = value.size || 20;
-      this.processDeliveriesSemanal();
+      // this.processDeliveriesSemanal();
     } else if (value) {
       console.log('Recibiendo objeto de respuesta, pero sin items:', value);
     }
@@ -75,7 +80,8 @@ export class DeliveriesComponent implements OnInit {
               private cdr: ChangeDetectorRef,
               private router: Router,
               private deliveryStateService: DeliveryStateService,
-              private paymentServices: PaymentsService
+              private paymentServices: PaymentsService,
+              private Alerts: Alerts
                 
   ) { }
 
@@ -195,25 +201,31 @@ export class DeliveriesComponent implements OnInit {
     this.deliveryIdToRider = 0;
   }
 
-  changeState( delivery: Item, newState: DeliveryStanding) {
+  async changeState( delivery: Item, newState: DeliveryStanding) {
     console.log('Estado anterior:', delivery.state);
     console.log('Nuevo estado:', newState);
     console.log('ID de la entrega:', delivery.id);
 
-    this.onSubmitUpdateState.emit({delivery, newState});
-     
+    let estado = await this.Alerts.confirmarEntrega()
+    console.log(estado);
+    
+    if (estado == "si"){
+      this.onSubmitUpdateState.emit({delivery, newState});
+    }
 
- 
+    
   }
 
 
-  processDeliveriesSemanal() {
-    // Aquí puedes hacer cualquier procesamiento adicional con los datos filtrados
-    // Por ejemplo, calcular estadísticas, actualizar gráficos, etc.
-    this.totalDeliveries = this.deliveries.length;   
-    // Lógica adicional específica para las entregas semanales
-    // this.DeliveySemana();
+  async changeStageCanceled( delivery: Item, newState: DeliveryStanding) {
+    console.log('Estado anterior:', delivery.state);
+    console.log('Nuevo estado:', newState);
+    console.log('ID de la entrega:', delivery.id);
+
+    this.onSubmitUpdateState.emit({delivery, newState}); 
   }
+
+  
 
 
   detalleDomi(delivery: any){
@@ -222,28 +234,6 @@ export class DeliveriesComponent implements OnInit {
     
     this.router.navigate(['delivery/details'])
   }
-
-  // DeliveySemana(){
-  //   console.log('componente Entregas semanales :', this.DeliveriesSemanal);
-    
-  // }
-
-  
-  
-
-  
-    
-
-    // this.paymentServices.updatePaymentStatus(payment_id, settlementStatus).subscribe({
-    //   next: (resp) =>{
-    //     console.log(resp);
-        
-    //   },
-    //   error: (err) => {
-    //     console.log(err);
-        
-    //   }
-    // })
   
 
 }

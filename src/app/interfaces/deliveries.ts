@@ -4,6 +4,7 @@ export enum DeliveryStanding {
   IN_PROGRESS = 'IN_PROGRESS',
   DELIVERED = 'DELIVERED',
   CANCELLED = 'CANCELLED',
+  ARCHIVED = 'ARCHIVED',
 }
 
 export enum PaymentStatus {

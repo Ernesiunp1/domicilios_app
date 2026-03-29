@@ -1,6 +1,6 @@
 import { Component, OnInit , Input,} from '@angular/core';
 import { IonLabel , IonContent, IonCard, IonCardHeader, IonItem, IonList, IonCardSubtitle, 
-  IonCardTitle, IonCardContent, IonChip, IonItemGroup } from "@ionic/angular/standalone";
+  IonCardTitle, IonCardContent, IonChip, IonItemGroup, IonButton } from "@ionic/angular/standalone";
 
 import { UpperCasePipe } from '@angular/common';
 
@@ -8,7 +8,7 @@ import { UpperCasePipe } from '@angular/common';
   selector: 'app-client-detail',
   templateUrl: './client-detail.component.html',
   styleUrls: ['./client-detail.component.scss'],
-  imports: [IonItemGroup, IonChip, IonCardContent, IonCardTitle, IonCardSubtitle, IonLabel , 
+  imports: [IonButton, IonItemGroup, IonChip, IonCardContent, IonCardTitle, IonCardSubtitle, IonLabel , 
     IonList, IonItem, IonContent, IonCard, IonCardHeader, IonChip, UpperCasePipe, IonItemGroup]
 })
 export class ClientDetailComponent  implements OnInit {

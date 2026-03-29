@@ -1,4 +1,6 @@
 /* rider-details.component.scss */
+
+
 .stat-item {
     text-align: center;
     padding: 10px;
@@ -8,7 +10,7 @@
   }
   
   .stat-value {
-    font-size: 1.5rem;
+    font-size: 1.5rem; 
     font-weight: bold;
     color: var(--ion-color-primary);
   }
@@ -43,3 +45,10 @@
     margin-left: auto;
     margin-right: auto;
   }
+
+
+  @media (max-width: 900px) {
+  .container {
+    max-width: none;
+  }
+}

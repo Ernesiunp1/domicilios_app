@@ -1,20 +1,32 @@
-<ion-header *ngIf="originalState" >
+<ion-header >
   <ion-toolbar color="primary" >
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button> <!-- Botón hamburguesa -->
     </ion-buttons>
-    <ion-title>Inicio</ion-title>
-  </ion-toolbar>
-</ion-header>
 
-<ion-header *ngIf="!originalState" >
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-back-button (click) = "resetOriginalState()"></ion-back-button>
-    </ion-buttons>
-    <ion-title>Volver Inicio</ion-title>
+    @if (!originalState) {
+        <ion-header  >
+        <ion-toolbar color="primary">
+          <ion-buttons slot="end">
+            <ion-back-button defaultHref="/inicio" 
+                             (click) = "resetOriginalState()"
+                             text="Atras"></ion-back-button>
+          </ion-buttons>
+          <ion-title>Crear Domicilio</ion-title>
+        </ion-toolbar>
+      </ion-header> 
+  }
+
+
+  @if (originalState) {
+    <ion-title>Inicio</ion-title>
+
+  }
   </ion-toolbar>
-</ion-header>
+</ion-header> 
+
+
+
 
 
 <ion-content [fullscreen]="true" 
@@ -84,7 +96,7 @@
   <ion-grid fixed>
       
     <ion-row>
-      <ion-col size="4">
+      <ion-col size="12" size-md="4">
         <ion-button expand="block"  
                     (click)="viewMap()"
                     >
@@ -93,7 +105,7 @@
         </ion-button>
       </ion-col>
 
-      <ion-col size="4">
+      <ion-col size="12" size-md="4">
         <ion-button expand="block"  
                     (click)="createDelivery()">
           <ion-icon name="add" slot="start"></ion-icon>
@@ -101,7 +113,7 @@
         </ion-button>
       </ion-col>
 
-      <ion-col size="4">
+      <ion-col size="12" size-md="4">
         <ion-button expand="block"  (click)="assignRider()">
           <ion-icon name="person" slot="start"></ion-icon>
           

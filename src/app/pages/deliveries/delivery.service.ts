@@ -136,7 +136,7 @@ export class DeliveryService {
       page: number, 
       size: number, 
       pages: number
-    }>(`${this.apiUrl}/deliveries`, { params });
+    }>(`${this.apiUrl}/deliveries/`, { params });
   }
 
 
@@ -152,6 +152,10 @@ export class DeliveryService {
     return this.http.put<Delivery>(
       `${this.apiUrl}/deliveries/update?delivery_id=${deliveryId}`, deliveryData
     );
+  }
+
+  archiveDelivered(): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/deliveries/archive-delivered`, {});
   }
  
 
