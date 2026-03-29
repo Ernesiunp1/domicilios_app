@@ -1,16 +1,17 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule, MenuController } from '@ionic/angular';
+import { MenuController } from '@ionic/angular';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Subscription } from 'rxjs';
+import { IonIcon, IonList, IonMenuToggle, IonItem, IonLabel, } from "@ionic/angular/standalone";
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterLink]
+  imports: [IonIcon, CommonModule, RouterLink, IonList, IonMenuToggle, IonItem, IonLabel]
 })
 export class MenuComponent implements OnInit, OnDestroy {
   

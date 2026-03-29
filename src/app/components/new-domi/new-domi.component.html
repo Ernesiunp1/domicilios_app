@@ -3,10 +3,10 @@
 
   <ion-card  class="card-domi" >
     
-    <ion-card-title>Crear Nuevo Domicilio</ion-card-title>
+    <ion-card-title color="secondary" >Crear Nuevo Domicilio</ion-card-title>
 
     <div class="ion-padding">
-      <form [formGroup]="domicilioForm" (ngSubmit)="onSubmit()">
+      <form [formGroup]="domicilioForm" (ngSubmit)="onSubmit()"> 
         <ion-list>
           <!-- Client ID -->
  
@@ -30,9 +30,12 @@
               <ion-col size="6">
                 <ion-item>
                   <ion-label position="floating">Repartidor</ion-label>
+                  
                   <ion-select  formControlName="rider_id" *ngIf="riders.length > 0">
+                  
                     <ion-select-option *ngFor="let rider of riders" [value]="rider.id">
                       {{ rider.name }}
+                      
                     </ion-select-option>
                   </ion-select>
                   <ion-spinner *ngIf="riders.length === 0"></ion-spinner>
@@ -41,51 +44,9 @@
               </ion-col>
             </ion-row>
           </ion-grid>
-          
-    
-          <!-- Package Name -->
-          
-           <ion-grid fixed>
-            <ion-row>            
-              <ion-col size="6">
-                <ion-item>
-                  <ion-label  position="floating">Nombre del Paquete</ion-label>
-                  <ion-input type="text"  formControlName="package_name"></ion-input>
-                </ion-item> 
-              </ion-col>
-              <!-- Receiver Name -->
-              <ion-col size="6">
-                <ion-item>
-                  <ion-label  position="floating">Nombre del Receptor</ion-label>
-                  <ion-input type="text"  formControlName="receptor_name"></ion-input>
-                </ion-item>               
-              </ion-col>
-            </ion-row>
-           </ion-grid>
 
 
-           <!-- RECEPTOR NUMBER-->
-           <ion-grid fixed>
-            <ion-row>               
-              <ion-col size="6">               
-                <ion-item>
-                  <ion-label   position="floating">Número Receptor</ion-label>
-                  <ion-textarea rows="2" formControlName="receptor_number"></ion-textarea>
-                  <ion-note slot="error" *ngIf="isInvalid('receptor_number')">Este campo es obligatorio</ion-note>
-                </ion-item>
-              </ion-col>
-              <!-- Delivery Address -->
-              <ion-col size="6">                
-                <ion-item>
-                  <ion-label   position="floating">Dirección de Entrega</ion-label>
-                  <ion-textarea rows="2" formControlName="delivery_address"></ion-textarea>
-                  <ion-note slot="error" *ngIf="isInvalid('delivery_address')">Este campo es obligatorio</ion-note>
-                </ion-item>
-              </ion-col>
-            </ion-row>
-           </ion-grid>
-          
-           <ion-grid fixed>
+          <ion-grid fixed>
             <ion-row>
               <ion-col size="6">
                 <!-- Locación (Dropdown) -->
@@ -116,38 +77,122 @@
             </ion-row>
            </ion-grid>
           
-
-           <ion-grid fixed> 
-            <ion-row>
-              <ion-col size="6">
-
+    
+          <!-- Package Name -->
+          
+           <ion-grid fixed>
+            <ion-row>            
+              <ion-col size="12" size-md="6">
                 <ion-item>
-                  <ion-label   position="floating">Monto empresa</ion-label>
-                  <ion-textarea rows="2" formControlName="delivery_enterprise_amount"></ion-textarea>
-                  <ion-note slot="error" *ngIf="isInvalid('delivery_enterprise_amount')">Este campo es obligatorio</ion-note>
-                </ion-item>
-
-
+                  <ion-label  position="floating">Nombre del Paquete</ion-label>
+                  <ion-input type="text"  formControlName="package_name"></ion-input>
+                </ion-item> 
+                   
               </ion-col>
-              <ion-col size="6">
-
+             
+             
+             
+              <!-- Receiver Name -->
+              <ion-col size="12" size-md="6">
                 <ion-item>
-                  <ion-label   position="floating">Monto total del domicilio</ion-label>
-                  <ion-textarea rows="2" formControlName="delivery_total_amount"></ion-textarea>
-                  <ion-note slot="error" *ngIf="isInvalid('delivery_total_amount')">Este campo es obligatorio</ion-note>
-                </ion-item>
-
+                  <ion-label  position="floating">Nombre del Receptor</ion-label>
+                  <ion-input type="text"  formControlName="receptor_name"></ion-input>
+                </ion-item>               
+                   
               </ion-col>
             </ion-row>
            </ion-grid>
 
 
-           <ion-input formControlName="delivery_comment"
+           <!-- RECEPTOR NUMBER-->
+           <ion-grid fixed>
+            <ion-row>               
+              <ion-col size="12" size-md="6">               
+                <ion-item>
+                  <ion-label   position="floating">Número Receptor</ion-label>
+                  <ion-input type="number" formControlName="receptor_number"></ion-input>
+                  <ion-note slot="error" *ngIf="isInvalid('receptor_number')">Este campo es obligatorio</ion-note>
+                </ion-item>
+                
+              </ion-col>
+
+
+
+              <!-- Delivery Address -->
+              <ion-col size="12" size-md="6">                
+                <ion-item>
+                  <ion-label   position="floating">Dirección de Entrega</ion-label>
+                  <ion-input type="text" formControlName="delivery_address"></ion-input>
+                  <ion-note slot="error" *ngIf="isInvalid('delivery_address')">Este campo es obligatorio</ion-note>
+                </ion-item>
+                
+              </ion-col>
+            </ion-row>
+           </ion-grid>
+          
+           
+          
+
+           <ion-grid fixed> 
+            <ion-row>
+              <ion-col size="12" size-md="6">
+
+                <ion-item>
+                  <ion-label   position="floating">Monto empresa</ion-label>
+                  <ion-input type="text" formControlName="delivery_enterprise_amount"></ion-input>
+                  <ion-note slot="error" *ngIf="isInvalid('delivery_enterprise_amount')">Este campo es obligatorio</ion-note>
+                </ion-item>
+
+                
+              </ion-col>
+              <ion-col size="12" size-md="6">
+
+                <ion-item>
+                  <ion-label   position="floating">Monto total del paquete + domicilio</ion-label>
+                  <ion-input type="text" formControlName="delivery_total_amount"></ion-input>
+                  <ion-note slot="error" *ngIf="isInvalid('delivery_total_amount')">Este campo es obligatorio</ion-note>
+                </ion-item>
+
+
+              </ion-col>
+            </ion-row>
+           </ion-grid>
+
+           <ion-grid fixed>
+            <ion-row>
+
+              <ion-col size="12"  size-md="6">
+
+                <ion-item>
+                  <ion-label   position="floating">Monto del Domicilio </ion-label>
+                  <ion-input type="number" formControlName="monto_domicilio"></ion-input>
+                  <!-- <ion-note slot="error" *ngIf="isInvalid('delivery_total_amount')">Este campo es obligatorio</ion-note> -->
+                </ion-item>
+                
+              </ion-col>
+
+
+              <ion-col size="12" size-md="6"> 
+
+
+                <ion-item>
+                  <ion-label   position="floating">Comentarios</ion-label>
+                  <ion-input type="text" formControlName="delivery_comment"></ion-input>
+                  <!-- <ion-note slot="error" *ngIf="isInvalid('delivery_total_amount')">Este campo es obligatorio</ion-note> -->
+                </ion-item>
+
+                <!-- <ion-input formControlName="delivery_comment"
                       label="Comentarios" 
                       label-placement="floating"  
                       fill="outline" 
                       placeholder="Enter text"
-                      ></ion-input>
+                      ></ion-input> -->
+
+              </ion-col>
+              
+            </ion-row>
+           </ion-grid>
+           
 
             <!-- <ion-item>
               <ion-label>Comentarios</ion-label>

@@ -119,7 +119,26 @@ export class PaymentsService {
   }
 
   // Método para obtener pagos de clientes
-  async getClientPayments(
+  // async getClientPayments(
+  //   filterStatus?: string
+  // ): Promise<ClientPaymentDetail[]> {
+  //   try {
+  //     let url = `${this.apiUrl}/payments/clients-payments`;
+  //     if (filterStatus && filterStatus !== 'ALL') {
+  //       url += `?status=${filterStatus}`;
+  //     }
+
+  //     const response = await this.http
+  //       .get<ClientPaymentDetail[]>(url)
+  //       .toPromise();
+  //     return response ?? [];
+  //   } catch (error) {
+  //     console.error('Error al obtener pagos de clientes:', error);
+  //     throw error;
+  //   }
+  // }
+
+    async getClientPayments(
     filterStatus?: string
   ): Promise<ClientPaymentDetail[]> {
     try {
@@ -128,9 +147,9 @@ export class PaymentsService {
         url += `?status=${filterStatus}`;
       }
 
-      const response = await this.http
-        .get<ClientPaymentDetail[]>(url)
-        .toPromise();
+      const response = await firstValueFrom(
+        this.http.get<ClientPaymentDetail[]>(url)
+      );
       return response ?? [];
     } catch (error) {
       console.error('Error al obtener pagos de clientes:', error);
@@ -183,7 +202,21 @@ export class PaymentsService {
   }
 
   updatePaymentStatus(payment_id: number, payload: any) {
-    console.log('payload desde updateservice', payload);
+    console.log('payload desde updateservice+++++++++++++++++++++++++++++++++', payload);
+
+    if (payload.settlement_status == 'CANCELLED' && payload.payment_status == 'CANCELLED'){
+      let client_settlement_status = 'SETTLED';
+
+      payload.client_settlement_status = client_settlement_status      
+
+            //   payload = {
+            //     settlement_status: payload.settlement_status,
+            //     payment_status: payload.payment_status,
+            //     payment_type: 'CANCELLED',
+            //     client_settlement_status: client_settlement_status
+
+            // }
+    }
 
     return this.http.patch(
       `${this.apiUrl}/payments/${payment_id}`,

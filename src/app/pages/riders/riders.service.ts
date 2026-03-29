@@ -26,6 +26,11 @@ export class RidersService {
       return this.http.get <any> (`${this.apiUrl}/rider/`)
     }
 
+    deletedRider(riderId: string): Observable<any> {
+      const headers = this.getAuthHeaders();
+      return this.http.delete<any>(`${this.apiUrl}/rider/${riderId}`, { headers });
+    }
+
 
    
 }

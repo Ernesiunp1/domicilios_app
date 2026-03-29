@@ -1,4 +1,9 @@
-.riders-list{
+
+
+
+@media (min-width: 401px) and (min-width: 768px) {
+
+    .riders-list{
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -7,6 +12,8 @@
     margin-left: auto;
     margin-right: auto;
     margin-top: 20px;
+}
+  
 }
 
 

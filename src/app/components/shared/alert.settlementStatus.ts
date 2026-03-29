@@ -47,6 +47,7 @@ export class AlertSettlementStatus {
     async openStatusAlert(payment_id: number) {
         const alert = await this.alertCtrl.create({
           header: 'Seleccionar Estado de Pago',
+          backdropDismiss: false,
           inputs: [
             // {
             //   name: 'CLEARED',
@@ -77,6 +78,12 @@ export class AlertSettlementStatus {
               type: 'radio',
               label: 'TRANSF OFICINA',
               value: this.settlementStatus.TRANSFER_TO_OFFICE
+            },
+            {
+              name:"CANCELLED",
+              type: 'radio',
+              label: 'DOMI CANCELADO',
+              value: this.settlementStatus.CANCELLED
             }
           ],
           buttons: [
@@ -132,6 +139,16 @@ export class AlertSettlementStatus {
                   }
                 }
 
+                if (selected == this.settlementStatus.CANCELLED) {
+                  this.payload = {
+                    settlement_status: selected,
+                    payment_status: PaymentStatus.CANCELLED,
+                    payment_type: 'CANCELLED'
+
+                  }
+                }
+               
+
                 
                 this.paymentsService.updatePaymentStatus(payment_id, this.payload).subscribe({
                   next: (resp)=>{
@@ -155,6 +172,38 @@ export class AlertSettlementStatus {
         await alert.present();
       }
 
+
+
+
+// // 1. ESTA es la función que conectarás al botón en el HTML
+// async confirmarEntrega(payment_id:number) {
+//   const alert = await this.alertCtrl.create({
+//     header: 'Confirmación de Entrega',
+//     subHeader: '¿Estás seguro?',
+//     message: '¿Confirmas que el domicilio fue entregado exitosamente y conoces el estado del pago?',
+//     buttons: [
+//       {
+//         text: 'No',
+//         role: 'cancel',
+//         cssClass: 'secondary',
+//         handler: () => {
+//           console.log('Cancelado por el usuario');
+//           // Aquí no pasa nada, todo queda igual.
+//         }
+//       },
+//       {
+//         text: 'Sí, continuar',
+//         handler: () => {
+//           // AQUÍ es donde encadenamos:
+//           // Si dice que sí, llamamos a tu alerta original
+//           this.openStatusAlert(payment_id); 
+//         }
+//       }
+//     ]
+//   });
+
+//   await alert.present();
+// }
 
 
 }

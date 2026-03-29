@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {AlertController ,IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonMenuButton, 
-  IonButton, IonIcon, IonBackButton, ToastController, IonCard } from '@ionic/angular/standalone';
+  IonButton, IonIcon, IonBackButton, ToastController} from '@ionic/angular/standalone';
 //import { MenuComponent } from 'src/app/components/menu/menu.component';
 import { ClientsListComponent } from "../../components/clients-list/clients-list.component";
 import { ClientService } from './client.service';
@@ -19,7 +19,8 @@ import { ClientsInterface } from 'src/app/interfaces/clients-interface';
   templateUrl: './clients.page.html',
   styleUrls: ['./clients.page.scss'],
   standalone: true,
-  imports: [IonCard, IonBackButton, IonIcon, IonButton, IonButtons, IonContent, 
+  providers: [ModalController],
+  imports: [IonBackButton, IonIcon, IonButton, IonButtons, IonContent, 
     IonHeader, IonTitle, EditClientFormComponent,
     IonToolbar, CommonModule, FormsModule,  ClientDetailComponent,
     IonButtons, IonMenuButton, ClientsListComponent, ClientFormComponent]
@@ -207,7 +208,8 @@ export class ClientsPage implements OnInit {
       address: client.address,
       bank: client.bank,
       account_type: client.account_type,
-      account_number: client.account_number
+      account_number: client.account_number,
+      is_active: client.is_active
       
     } 
 

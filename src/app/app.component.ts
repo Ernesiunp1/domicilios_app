@@ -1,5 +1,5 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+// import { RouterLink } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { eye, add, sync, closeCircleOutline, bicycleOutline, bicycle, homeOutline, bagHandleOutline, carOutline,
   peopleOutline, cardOutline, idCardOutline, personOutline, logOut, logOutOutline, exit, walletOutline,
@@ -68,10 +68,9 @@ addIcons({
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
-  imports: [IonButtons, IonSplitPane, IonTitle, IonContent, 
-            IonHeader, IonMenuButton, IonList,  IonLabel, 
-            IonIcon, IonItem, IonApp, IonRouterOutlet,
-            IonMenu, IonToolbar, RouterLink, IonMenuToggle, MenuComponent,
+  imports: [ IonSplitPane, IonTitle, IonContent, 
+            IonHeader,  IonApp, IonRouterOutlet,
+            IonMenu, IonToolbar, MenuComponent,
           ],
             
 })

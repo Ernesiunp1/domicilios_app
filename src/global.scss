@@ -68,11 +68,18 @@
   }
 
  
+// @media (min-width: 401px) {
+//   ion-menu.custom-menu {
+//     width: 5% !important;
+//   }
+// }
+
+
+@media (min-width: 401px) and (min-width: 768px) {
   ion-menu.custom-menu {
-   width: 5% !important;
+    width: 5% !important;
   }
-
-
+}
 
   ////////////////////////// alert login//////////////////////////
  

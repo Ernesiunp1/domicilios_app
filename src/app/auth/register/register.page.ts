@@ -3,8 +3,9 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { AuthService } from '../auth.service';
 import { Router , RouterLink} from '@angular/router';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard,
-  IonItem, IonLabel, IonInput, IonButton, IonNote, IonIcon, IonCardSubtitle, 
-  IonText, IonGrid, IonCol, IonRow, AlertController, IonToast, ToastController } from '@ionic/angular/standalone';
+  IonItem, IonLabel, IonInput, IonButton, IonIcon, IonCardSubtitle, 
+   IonGrid, IonCol, IonRow, AlertController, ToastController, IonButtons,
+IonMenuButton } from '@ionic/angular/standalone';
 import { NgIf } from '@angular/common';
 import { RiderFormComponent } from 'src/app/components/rider-form/rider-form.component';
 import { ClientFormComponent } from 'src/app/components/client-form/client-form.component';
@@ -14,9 +15,9 @@ import { ClientFormComponent } from 'src/app/components/client-form/client-form.
   standalone: true,
   selector: 'app-register',
   templateUrl: './register.page.html',
-  imports: [IonRow, IonCol, IonGrid,  IonCardSubtitle, IonIcon, IonHeader, IonToolbar, IonTitle, 
+  imports: [IonButtons, IonRow, IonCol, IonGrid,  IonCardSubtitle, IonIcon, IonHeader, IonToolbar, IonTitle, 
     IonContent, IonItem, IonLabel, IonInput, IonButton, ReactiveFormsModule, NgIf, IonCard,
-  RouterLink, RiderFormComponent, ClientFormComponent ]
+  RouterLink, RiderFormComponent, ClientFormComponent, IonMenuButton ]
 })
 export class RegisterPage {
   registerForm: FormGroup;
@@ -63,10 +64,10 @@ export class RegisterPage {
     toast.present();
   }
 
-  async presentAlert(errorMessage: string) {
+  async presentAlert(Message: string) {
     const alert = await this.alertctrl.create({
-      header: 'Error',
-      message: errorMessage,
+      header: 'Mensaje:',
+      message: Message,
       buttons: ['OK']
     });
     await alert.present();
@@ -104,7 +105,9 @@ export class RegisterPage {
       next: () => {
         console.log('Rider registrado con éxito');
         this.presentToast('Rider registrado con éxito');
-        this.router.navigate(['/login']);
+        this.presentAlert('Rider Creado con Exito');
+
+        // this.router.navigate(['/login']);
       },
      
       error: (err) => {
