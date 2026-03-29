@@ -127,8 +127,9 @@ export class NewDomiComponent  implements OnInit {
   getIdsRiders() {
     this.deliveryService.getIdsRiders().subscribe({
       next: (resp) => {
-        
-        this.riders = resp;        
+        let good_resp = resp.filter(rider => rider.is_active);
+
+        this.riders = good_resp;        
         this.cdr.detectChanges(); 
 
       },
@@ -142,6 +143,7 @@ export class NewDomiComponent  implements OnInit {
   getAllCLients(){
     this.clientService.getAllClients().subscribe({
       next: (resp) => {
+        
         this.clients = resp;
         this.cdr.detectChanges()
         

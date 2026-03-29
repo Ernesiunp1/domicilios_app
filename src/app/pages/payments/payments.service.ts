@@ -202,7 +202,21 @@ export class PaymentsService {
   }
 
   updatePaymentStatus(payment_id: number, payload: any) {
-    console.log('payload desde updateservice', payload);
+    console.log('payload desde updateservice+++++++++++++++++++++++++++++++++', payload);
+
+    if (payload.settlement_status == 'CANCELLED' && payload.payment_status == 'CANCELLED'){
+      let client_settlement_status = 'SETTLED';
+
+      payload.client_settlement_status = client_settlement_status      
+
+            //   payload = {
+            //     settlement_status: payload.settlement_status,
+            //     payment_status: payload.payment_status,
+            //     payment_type: 'CANCELLED',
+            //     client_settlement_status: client_settlement_status
+
+            // }
+    }
 
     return this.http.patch(
       `${this.apiUrl}/payments/${payment_id}`,

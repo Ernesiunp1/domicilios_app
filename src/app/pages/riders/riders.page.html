@@ -30,8 +30,24 @@
               <ion-label> Matrícula: {{rider.plate}} </ion-label>
             </ion-item>
 
-            <!-- <ion-button expand="full" >ver Rider</ion-button> -->
-            <ion-button class="boton-ver" [routerLink]="['/riders', rider.id]" >Ver detalles</ion-button>
+                  <ion-card-content>
+                  <ion-grid>
+                    <ion-row>
+                      <ion-col>
+                        <ion-button expand="block" class="boton-ver" [routerLink]="['/riders', rider.id]">
+                          Ver detalles
+                        </ion-button>
+                      </ion-col>
+                      <ion-col>
+                        <ion-button expand="block" class="boton-ver" color="danger" (click)="deleteRider(rider.id)">
+                          Eliminar
+                        </ion-button>
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+
+                </ion-card-content>
+
           </ion-card-content>
         </ion-card>
       </ion-list>

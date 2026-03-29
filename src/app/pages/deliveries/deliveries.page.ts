@@ -205,32 +205,23 @@ export class DeliveriesPage implements OnInit {
     if ($event.newState === 'DELIVERED'){
           payload = {
             state: $event.newState,
-            delivery_date
-            
+            delivery_date            
           }
 
     } else {
           payload = {
-            state: $event.newState
-            
+            state: $event.newState            
           }
     }
         
-
-    
-    
+   
     
     this.deliveryService.updateDelivery(delivery_id, payload).subscribe({
       next: (resp) => {
-        console.log("respuesta", resp);       
 
-        // this.openStatusAlert(payment_id)
+      
+        console.log("respuesta", resp);  
         this.alertSettlementStatus.openStatusAlert(payment_id)
-        
-
-        // this.alertMessage("Estado actualizado correctamente")
-        // this.presentToast("Estado actualizado correctamente")  
-        
         this.refreshTableTrigger = !this.refreshTableTrigger;        
       
       }, 
@@ -241,6 +232,36 @@ export class DeliveriesPage implements OnInit {
       }
     })
     
+  }
+
+
+  async onArchiveDelivered() {
+    const alert = await this.alertCtrl.create({
+      header: 'Confirmar',
+      message: '¿Estás seguro de que deseas eliminar (archivar) todos los domicilios entregados y liquidados?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Eliminar',
+          handler: () => {
+            this.deliveryService.archiveDelivered().subscribe({
+              next: (resp) => {
+                this.presentToast(resp.message);
+                this.refreshTableTrigger = !this.refreshTableTrigger;
+              },
+              error: (err) => {
+                this.presentToast('Error al archivar domicilios', 'danger');
+              }
+            });
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
 
@@ -264,28 +285,5 @@ export class DeliveriesPage implements OnInit {
   }
 
 
-  // updateSettlementStatus(payment_id: number, settlementStatus: any){
-    
-    
-  //   this.paymentsService.updatePaymentStatus(delivery_id, this.settlementStatusSelected!).subscribe({
-
-  //     next: (resp) => {
-  //       console.log("respuesta de actualizacion del pago:", resp);
-  //       this.alertMessage("Estado actualizado correctamente")
-  //       this.presentToast("Estado actualizado correctamente")  
-
-        
-  //     },
-  //     error: (err)=>{
-  //       console.error("error", err);
-  //       this.alertMessage(`Error: ${err.error.message}`)
-  //       this.presentToast(`Error: ${err.error.message}`, 'danger')
-  //     }
-
-
-  //   })       
-    
-   
-  // }
 
 }

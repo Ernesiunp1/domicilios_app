@@ -70,6 +70,22 @@
     </ion-item>
     
     
+    <ion-item >
+      <ion-select label="Estado del Cliente"
+                  [(ngModel)]="clientData.is_active"
+                  name="is_active"
+                  value="estado_cliente" 
+                  multiple="false" 
+                  placeholder="Activo/Inactivo">
+        <ion-select-option value=true>Activo</ion-select-option>
+        <ion-select-option value=false>Inactivo</ion-select-option>
+      </ion-select>
+      
+    </ion-item>
+
+   
+    
+    
     
     
     <div class="ion-padding-top">

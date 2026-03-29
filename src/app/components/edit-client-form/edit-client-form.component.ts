@@ -2,8 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {  ModalController, IonCard, IonToolbar, IonTitle, IonContent, 
-  IonItem, IonLabel, IonSelect, IonSelectOption, IonHeader, IonButton, IonInput
- } from '@ionic/angular/standalone'
+  IonItem, IonLabel, IonSelect, IonSelectOption, IonHeader, IonButton, IonInput, IonCol, IonList } from '@ionic/angular/standalone'
 
 
 interface ClientUpdateModel {
@@ -14,6 +13,7 @@ interface ClientUpdateModel {
   bank: string | null;
   account_number: string | null;
   account_type: string | null;
+  is_active: boolean | null;
 }
 
 @Component({
@@ -21,7 +21,7 @@ interface ClientUpdateModel {
   templateUrl: './edit-client-form.component.html',
   styleUrls: ['./edit-client-form.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonCard, IonToolbar, IonTitle, IonContent, 
+  imports: [IonList, IonCol, CommonModule, FormsModule, IonCard, IonToolbar, IonTitle, IonContent, 
   IonItem, IonLabel, IonSelect, IonSelectOption, IonHeader, IonButton, IonInput],
   providers: [ModalController, ]
 })
@@ -43,7 +43,9 @@ export class EditClientFormComponent  implements OnInit {
     address: null,
     bank: null,
     account_number: null,
-    account_type: null
+    account_type: null,
+    is_active: null
+
   };
 
   constructor(private modalCtrl: ModalController) {}
@@ -51,7 +53,7 @@ export class EditClientFormComponent  implements OnInit {
   ngOnInit() {
     // Cargar los datos del cliente actual si existen
     if (this.client) {
-      // console.log('Cliente a editar:', this.client);
+      console.log('Cliente a editar:', this.client);
       
       this.clientData = {
         id: this.client.id || null,
@@ -60,7 +62,9 @@ export class EditClientFormComponent  implements OnInit {
         address: this.client.address || null,
         bank: this.client.bank || null,
         account_number: this.client.account_number || null,
-        account_type: this.client.account_type || null
+        account_type: this.client.account_type || null,
+        is_active: this.client.is_active || null
+
       };
     }
   }
@@ -94,6 +98,9 @@ export class EditClientFormComponent  implements OnInit {
     }
     if (this.clientData.account_type !== null) {
       updateData.account_type = this.clientData.account_type
+    }
+    if (this.clientData.is_active !== null) {
+      updateData.is_active = this.clientData.is_active
     }
     
     // console.log('Datos a actualizar:', updateData);

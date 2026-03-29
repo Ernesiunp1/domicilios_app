@@ -30,9 +30,12 @@
               <ion-col size="6">
                 <ion-item>
                   <ion-label position="floating">Repartidor</ion-label>
+                  
                   <ion-select  formControlName="rider_id" *ngIf="riders.length > 0">
+                  
                     <ion-select-option *ngFor="let rider of riders" [value]="rider.id">
                       {{ rider.name }}
+                      
                     </ion-select-option>
                   </ion-select>
                   <ion-spinner *ngIf="riders.length === 0"></ion-spinner>

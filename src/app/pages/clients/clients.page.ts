@@ -208,7 +208,8 @@ export class ClientsPage implements OnInit {
       address: client.address,
       bank: client.bank,
       account_type: client.account_type,
-      account_number: client.account_number
+      account_number: client.account_number,
+      is_active: client.is_active
       
     } 
 

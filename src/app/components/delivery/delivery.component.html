@@ -92,11 +92,6 @@
                     <!-- MONTO TOTAL DEL DOMICLIO -->
                     <td>{{ delivery.payments[0].total_amount | currency }}</td>
                     
-                    <!-- TIPO DE PAGO (CASH TRANSFER ETC..) -->
-                    <!-- <td>{{ delivery.payments[0].payment_type }}</td> -->
-                    
-                    <!-- OBSERVACIONES -->
-                    <!-- <td>{{ 'N/A' }}</td> -->
 
 
                     <!-- btns de acciones -->
@@ -113,7 +108,7 @@
                                      color="success">
                           <ion-icon name="checkmark-done-circle-outline"></ion-icon>
                         </ion-button>
-                        <ion-button (click) ="changeState(delivery, deliveryStates.CANCELLED)" fill="clear" color="danger">
+                        <ion-button (click) ="changeStageCanceled(delivery, deliveryStates.CANCELLED)" fill="clear" color="danger">
                           <ion-icon name="close-outline"></ion-icon>
                         </ion-button>
                       </ion-buttons>
